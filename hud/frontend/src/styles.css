@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: 'Lucida Console', 'Courier New', Courier, Monaco, 'Bitstream Vera Sans Mono', monospace;
+  --color-crt-bg: #000000;
+  --color-crt-fg: #cccccc;
+  
+  /* Cores oficiais do Glances */
+  --color-glances-ok: #3e7b04;
+  --color-glances-careful: #295183;
+  --color-glances-warning: #5d4062;
+  --color-glances-critical: #a30000;
+  --color-glances-error: #ee6600;
+}
+
+body {
+  background-color: var(--color-crt-bg) !important;
+  color: var(--color-crt-fg) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+}
+
+/* Efeito sutil de scanlines CRT */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.08) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.hud-container {
+  height: 100vh;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Classes de cores de texto oficiais do Glances */
+.ok {
+  color: var(--color-glances-ok) !important;
+}
+.careful {
+  color: var(--color-glances-careful) !important;
+}
+.warning {
+  color: var(--color-glances-warning) !important;
+}
+.critical {
+  color: var(--color-glances-critical) !important;
+  font-weight: bold;
+}
+.error {
+  color: var(--color-glances-error) !important;
+}
+
+/* Destaques de fundo (badges) oficiais do Glances TUI */
+.bg-ok {
+  background-color: var(--color-glances-ok) !important;
+  color: #ffffff !important;
+  padding: 0px 3px;
+}
+.bg-careful {
+  background-color: var(--color-glances-careful) !important;
+  color: #ffffff !important;
+  padding: 0px 3px;
+}
+.bg-warning {
+  background-color: var(--color-glances-warning) !important;
+  color: #ffffff !important;
+  padding: 0px 3px;
+}
+.bg-critical {
+  background-color: var(--color-glances-critical) !important;
+  color: #ffffff !important;
+  padding: 0px 3px;
+  animation: crt-critical-pulse 0.8s infinite alternate;
+}
+
+@keyframes crt-critical-pulse {
+  0% {
+    background-color: var(--color-glances-critical);
+  }
+  100% {
+    background-color: #ef4444;
+  }
+}
+
+/* Custom scrollbars retro */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #222222;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}

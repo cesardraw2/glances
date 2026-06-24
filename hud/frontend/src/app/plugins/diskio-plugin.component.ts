@@ -1,0 +1,37 @@
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MetricsService } from '../services/metrics.service';
+
+@Component({
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (diskio()) {
+      <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full">
+        <div class="grid grid-cols-12 gap-x-2 border-b border-[#111] pb-0.5 mb-0.5">
+          <span class="text-white font-bold col-span-6">DISK I/O</span>
+          <span class="text-[#888] col-span-3 text-right">R/s</span>
+          <span class="text-[#888] col-span-3 text-right">W/s</span>
+        </div>
+        <div class="flex flex-col space-y-0.5">
+          @for (disk of diskio(); track disk.device) {
+            <div class="grid grid-cols-12 gap-x-2">
+              <span class="text-white font-bold col-span-6 truncate" [title]="disk.device">{{ disk.device }}</span>
+              <span class="text-[#aaa] col-span-3 text-right">{{ formatRate(disk.read_rate) }}</span>
+              <span class="text-[#aaa] col-span-3 text-right">{{ formatRate(disk.write_rate) }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  `
+})
+export class DiskIoPluginComponent {
+  private metricsService = inject(MetricsService);
+  readonly diskio = this.metricsService.diskio;
+
+  formatRate(rate: string): string {
+    return rate.replace(' /s', '').replace(' ', '');
+  }
+}

@@ -717,6 +717,40 @@ class GlancesRestfulApi:
 
         return self._templates.TemplateResponse(template_name, context)
 
+    async def _api_metrics_sse(self, request: Request):
+        """Streaming SSE endpoint for live metrics."""
+        # Se houver senha, validar autenticação (Basic ou token na query param JWT)
+        if self.args.password:
+            try:
+                self.authentication(request)
+            except Exception:
+                # Caso falhe a autenticação padrão, tentamos verificar via token de query string
+                token = request.query_params.get("token")
+                if not token or not self._jwt_handler or not self._jwt_handler.verify_token(token):
+                    raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Incorrect authentication")
+
+        # Obtém o refresh time do query param ou do argumento padrão
+        refresh_param = request.query_params.get('refresh')
+        try:
+            refresh_time = float(refresh_param) if refresh_param else float(self.args.time)
+        except ValueError:
+            refresh_time = float(self.args.time)
+
+        async def event_generator():
+            try:
+                while True:
+                    # Update stats
+                    self.__update_stats()
+                    statval = self.stats.getAllAsDict()
+                    # Envia no formato SSE
+                    yield f"data: {json.dumps(statval)}\n\n"
+                    # Dorme de acordo com o intervalo
+                    await asyncio.sleep(max(0.5, refresh_time))
+            except asyncio.CancelledError:
+                pass
+
+        return StreamingResponse(event_generator(), media_type="text/event-stream")
+
     def _index(self, request: Request):
         """Return main index.html (/) file.
 

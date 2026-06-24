@@ -1,0 +1,128 @@
+<div class="hud-container flex flex-col h-screen overflow-hidden text-[#cccccc] selection:bg-[#3e7b04] selection:text-white font-mono bg-black relative">
+  
+  <!-- Linha 1: Cabeçalho de Uptime e SO -->
+  <header class="flex-none pb-1">
+    @for (item of topPlugins(); track item.name) {
+      <ng-container *ngComponentOutlet="item.component"></ng-container>
+    }
+  </header>
+
+  <!-- Linha 2: Painel Horizontal de Recursos do Topo (sem caixas ou bordas, plano) -->
+  @if (showTopMenu()) {
+    <div class="flex-none grid grid-cols-12 gap-x-4 px-1 py-2 border-b border-[#111] items-start">
+      <!-- Quicklook (bars) -->
+      @if (showQuickLook()) {
+        <div class="col-span-12 md:col-span-2">
+          <ng-container *ngComponentOutlet="componentRegistry['quicklook']"></ng-container>
+        </div>
+      }
+      
+      <!-- CPU Text Details -->
+      <div [class]="cpuColClass()">
+        <ng-container *ngComponentOutlet="componentRegistry['cpu']"></ng-container>
+      </div>
+
+      <!-- GPU Text Details -->
+      @if (showGpu() && hasGpu()) {
+        <div class="col-span-12 md:col-span-2">
+          <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
+        </div>
+      }
+
+      <!-- MEM / SWAP Text Details -->
+      <div [class]="memColClass()">
+        <ng-container *ngComponentOutlet="componentRegistry['mem']"></ng-container>
+      </div>
+
+      <!-- Load average details -->
+      <div class="col-span-12 md:col-span-2">
+        <ng-container *ngComponentOutlet="componentRegistry['load']"></ng-container>
+      </div>
+    </div>
+  }
+
+  <!-- Linha 3: Linha de Alertas e Conectividade do Terminal -->
+  <div class="flex-none flex justify-between items-center text-[12px] px-1 py-2 text-[#aaa]">
+    <div class="flex items-center space-x-2">
+      <!-- Status SSE -->
+      <span class="inline-block w-2 h-2 rounded-full" 
+            [ngClass]="isConnected() ? 'bg-green-500 shadow-[0_0_6px_#3e7b04] animate-pulse' : 'bg-red-500 shadow-[0_0_6px_#a30000] animate-ping'">
+      </span>
+      <span class="font-bold" [ngClass]="!isConnected() ? 'text-red-500 font-bold' : (activeAlert() ? (activeAlert().level === 'CRITICAL' || activeAlert().level === 'critical' ? 'text-red-500 font-bold' : 'text-yellow-500 font-bold') : 'text-white')">
+        {{ !isConnected() ? 'DISCONNECTED FROM HOST' : (activeAlert() ? activeAlert().msg : 'No warning or critical alert detected') }}
+      </span>
+    </div>
+    <div class="text-[#444] text-[11px] hidden sm:block">
+      glances {{ version() || '4.5.6-real' }} with web-sse HUD
+    </div>
+  </div>
+
+  <!-- Linha 4: Grid Inferior de Duas Colunas (flat e denso) -->
+  <main class="flex-1 grid grid-cols-12 gap-4 p-1 overflow-hidden min-h-0">
+    
+    <!-- Coluna Lateral de Recursos compacta (Network, Discos, FS) -->
+    @if (showSidebar() && sidebarPlugins().length > 0) {
+      <div class="col-span-12 md:col-span-3 lg:col-span-3 overflow-y-auto space-y-4 max-h-full pr-1">
+        @for (item of sidebarPlugins(); track item.name) {
+          <div class="block">
+            <ng-container *ngComponentOutlet="item.component"></ng-container>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Coluna Principal de Tarefas (Lista de Processos) -->
+    <div [ngClass]="(showSidebar() && sidebarPlugins().length > 0) ? 'col-span-12 md:col-span-9 lg:col-span-9 border-l border-[#111] pl-2' : 'col-span-12'" 
+         class="overflow-y-auto max-h-full pr-1 space-y-4">
+      @for (item of mainPlugins(); track item.name) {
+        <div class="block">
+          <ng-container *ngComponentOutlet="item.component"></ng-container>
+        </div>
+      }
+    </div>
+
+  </main>
+
+  <!-- Modal de Login Retro JWT -->
+  @if (!isAuthenticated()) {
+    <div class="fixed inset-0 bg-[#070707] flex items-center justify-center z-50 font-mono text-[#ccc]">
+      <!-- Scanlines overlay -->
+      <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(18,18,18,0.2)_0%,rgba(0,0,0,0.8)_100%)] z-10"></div>
+      <div class="w-[450px] border-2 border-red-900 bg-black p-6 shadow-[0_0_20px_rgba(153,27,27,0.4)] relative z-20">
+        <div class="text-red-500 font-bold text-center mb-4 text-[14px] tracking-wide animate-pulse">
+          *** GLANCES SECURE ACCESS REQUIRED ***
+        </div>
+        <div class="text-[12px] text-[#888] mb-6 leading-relaxed text-center">
+          This host has password protection enabled. Please enter your credentials to access the retro HUD dashboard.
+        </div>
+
+        <div class="space-y-4 text-[12px]">
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500 w-24 font-bold">Username:</span>
+            <input type="text" #usernameInput value="admin"
+                   class="flex-1 bg-[#0b0b0b] border border-[#222] text-white px-2 py-1 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 font-mono text-[12px]" />
+          </div>
+          
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500 w-24 font-bold">Password:</span>
+            <input type="password" #passwordInput (keyup.enter)="onLogin(usernameInput.value, passwordInput.value)"
+                   class="flex-1 bg-[#0b0b0b] border border-[#222] text-white px-2 py-1 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 font-mono text-[12px]" />
+          </div>
+
+          @if (loginError()) {
+            <div class="text-red-500 text-center font-bold animate-pulse text-[11px] mt-2">
+              [ERROR] {{ loginError() }}
+            </div>
+          }
+
+          <div class="pt-4 flex justify-end">
+            <button (click)="onLogin(usernameInput.value, passwordInput.value)"
+                    class="bg-[#111] hover:bg-[#222] text-green-500 font-bold px-4 py-1 border border-green-700 hover:border-green-500 active:bg-green-950 focus:outline-none">
+              [ ENTER ]
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
