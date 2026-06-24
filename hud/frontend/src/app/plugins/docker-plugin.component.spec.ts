@@ -1,0 +1,75 @@
+import '@angular/compiler';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { signal } from '@angular/core';
+
+let mockMetricsService: any;
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@angular/core')>();
+  return {
+    ...original,
+    inject: vi.fn((token) => {
+      return mockMetricsService;
+    })
+  };
+});
+
+import { DockerPluginComponent } from './docker-plugin.component';
+
+describe('DockerPluginComponent', () => {
+  beforeEach(() => {
+    mockMetricsService = {
+      containers: signal([
+        { id: '123', name: 'web-app', status: 'running', uptime: 'Up 2 hours', cpu_percent: 1.5, memory_usage: 120 * 1024 * 1024, memory_limit: 512 * 1024 * 1024, io: { ior: 0, iow: 0 }, network: { rx: 1024, tx: 512 }, ports: '80->80', command: 'node index.js' },
+        { id: '456', name: 'db', status: 'exited', uptime: 'Exited 1 hour ago', cpu_percent: 0.0, memory_usage: 0, memory_limit: 1024 * 1024 * 1024, io: { ior: 0, iow: 0 }, network: { rx: 0, tx: 0 }, ports: '5432->5432', command: ['postgres', '-D', '/data'] }
+      ]),
+      containerSortKey: {
+        set: vi.fn()
+      }
+    };
+  });
+
+  it('should create the component', () => {
+    const comp = new DockerPluginComponent();
+    expect(comp).toBeTruthy();
+    expect(comp.containers().length).toBe(2);
+  });
+
+  it('should change sorting key on metrics service', () => {
+    const comp = new DockerPluginComponent();
+    comp.changeSort('cpu_percent');
+    expect(mockMetricsService.containerSortKey.set).toHaveBeenCalledWith('cpu_percent');
+  });
+
+  it('should toggle local highlight of containers', () => {
+    const comp = new DockerPluginComponent();
+    expect(comp.highlightedContainerId()).toBeNull();
+    
+    comp.toggleHighlight('123');
+    expect(comp.highlightedContainerId()).toBe('123');
+    
+    comp.toggleHighlight('123');
+    expect(comp.highlightedContainerId()).toBeNull();
+  });
+
+  it('should return correct status classes', () => {
+    const comp = new DockerPluginComponent();
+    expect(comp.getStatusClass('running')).toContain('text-green-500');
+    expect(comp.getStatusClass('exited')).toContain('text-red-500');
+    expect(comp.getStatusClass('paused')).toContain('text-yellow-500');
+  });
+
+  it('should format rates and bytes correctly', () => {
+    const comp = new DockerPluginComponent();
+    expect(comp.formatBytes(1024 * 1024)).toBe('1M');
+    expect(comp.formatRate(0)).toBe('0');
+    expect(comp.formatRate(2048)).toBe('2K');
+  });
+
+  it('should format commands arrays and strings correctly', () => {
+    const comp = new DockerPluginComponent();
+    expect(comp.getCommandStr('node index.js')).toBe('node index.js');
+    expect(comp.getCommandStr(['postgres', '-D', '/data'])).toBe('postgres -D /data');
+    expect(comp.getCommandStr(null)).toBe('-');
+  });
+});
