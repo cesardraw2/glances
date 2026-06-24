@@ -42,12 +42,32 @@ Acesse no navegador: `http://localhost:4200`
 
 ---
 
-## 🧪 Rodando Testes Unitários
+## 🧪 Rodando Testes Unitários & Integração (Vitest Híbrido)
 
-Para garantir a qualidade e a regressão do código do frontend Angular (configurado com Karma + Jasmine):
+A suíte de testes do frontend utiliza o **Vitest**, oferecendo suporte híbrido a testes de lógica ultra-rápidos em Node.js (sem necessidade de navegador) e testes de integração e visualização em navegadores reais usando o **Playwright**.
+
+### 1. Executar Testes de Lógica no Node (Sem Browser - Instantâneo)
+Executa a suíte de testes unitários que não dependem do DOM ou que utilizam mock de injeção do Angular em milissegundos no Node puro:
 ```bash
+export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
 cd hud/frontend
-pnpm run test
+pnpm test
+```
+
+### 2. Executar Testes no Navegador (Vitest Browser + Playwright Chromium)
+Inicializa uma instância leve e otimizada do Chromium gerenciada pelo Playwright para rodar testes integrados que validam a renderização e comportamento real do HUD:
+```bash
+export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
+cd hud/frontend
+pnpm run test:browser
+```
+
+### 3. Gerar Relatório de Cobertura de Código (Coverage)
+Executa a análise de cobertura de código no ambiente Node usando a engine V8:
+```bash
+export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
+cd hud/frontend
+pnpm run test:coverage
 ```
 
 ---

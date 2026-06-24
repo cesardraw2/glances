@@ -3,6 +3,7 @@ allowBuilds:
   esbuild: set this to true or false
   lmdb: set this to true or false
   msgpackr-extract: set this to true or false
+  puppeteer: set this to true or false
 minimumReleaseAgeExclude:
   - '@angular-devkit/architect@0.2200.3'
   - '@angular-devkit/core@22.0.3'
