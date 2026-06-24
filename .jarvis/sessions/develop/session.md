@@ -3,7 +3,7 @@
 - **Objetivo**: Construir a SPA HUD retro do Glances com Angular 22+ Zoneless/Signals e Python backend SSE mock, integrada de forma nativa ao servidor Web do Glances real e equipada com uma suíte de testes moderna sob o Vitest.
 - **Data de Início**: 2026-06-18
 - **Estado**: Finalizado
-- **Fase Atual**: Concluído (Fase 1 à Fase 9)
+- **Fase Atual**: Concluído (Fase 1 à Fase 10)
 
 ---
 
@@ -48,9 +48,15 @@
 *   **Testes no Node (Instantâneos)**: Configuração rápida e modular do Vitest Node para rodar testes lógicos sem browser de `MetricsService` e `AppComponent` mockando dependências via classes puras e mocks do `inject()`.
 *   **Testes no Browser (Playwright Chromium)**: Execução de testes integrados reais em Chromium hermético com flags otimizadas, usando proxy do Vite para evitar violações CORS de Same-Origin Policy de iframe.
 
+### Fase 10: Expansão Massiva de Cobertura de Testes (~98%)
+*   **Cobertura de Plugins (12/12)**: Implementação de testes unitários individuais para todos os 12 componentes de plugin do HUD: `system-info`, `quicklook`, `load`, `cpu`, `mem`, `network`, `diskio`, `fs`, `gpu`, `sensors`, `docker`, `processes`.
+*   **AppComponent** (2 → 35 testes): Cobertura completa de todos os 16 atalhos de teclado, computed signals (`hasGpu`, `cpuColClass`, `memColClass`, `activeAlert`, `topPlugins`, `subTopPlugins`, `sidebarPlugins`, `mainPlugins`), delegação `onLogin()`, registry de componentes e guard de INPUT/TEXTAREA.
+*   **MetricsService** (4 → 83 testes): Cobertura completa de todos os computed signals (system, ipAddress, publicIp, cpu com percpu, mem com swap, network com filtragem de virtuais, diskio com filtragem loop/ram, fs, containers sorting, processes sorting por 6 chaves, extendedProcess), lifecycle SSE (open, message, error, reconexão), URL construction, auth flow (200/401/500/network error), login (sucesso/falha), pin/unpin process, formatBytesRate edge cases, getBaseUrl/getApiVersionPath routing.
+*   **Métricas Finais**: 157 testes | 97.45% Stmts | 86.36% Branches | 97.43% Funcs | 98.45% Lines.
+
 ---
 
 ## 🛠️ Arquitetura e Estrutura Técnica de SSoT
 *   **Frontend**: Angular v22.0.2 + Tailwind CSS v4.3.1. Servido de forma estática sob `/hud/`.
 *   **Backend**: FastAPI (Mock) e Uvicorn/FastAPI (Glances Real) expondo Server-Sent Events (SSE) em `/api/4/metrics/sse`.
-*   **Testes**: Vitest v4.1.9 + `@vitest/browser` + Playwright.
+*   **Testes**: Vitest v4.1.9 + `@vitest/browser` + Playwright. 157 testes (14 arquivos), ~98% de cobertura de linhas.

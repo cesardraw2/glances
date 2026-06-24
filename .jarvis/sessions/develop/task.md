@@ -11,3 +11,7 @@
 - [x] Aplicar padrão zebrado curses de terminal (fundos alternados) nas tabelas de contêineres e processos
 - [x] Fase 8: Resolução do carregamento e compilação do Tailwind v4 via PostCSS no styles.css
 - [x] Fase 9: Migração da suíte de testes do Karma/Jasmine para a arquitetura híbrida de testes com Vitest (Node + Browser Playwright)
+- [x] Fase 10: Testes unitários dos 12 plugins do HUD (system-info, quicklook, load, cpu, mem, network, diskio, fs, gpu, sensors, docker, processes)
+- [x] Fase 10: Expansão da cobertura do AppComponent (2 → 35 testes, 100% Stmts/Lines)
+- [x] Fase 10: Expansão da cobertura do MetricsService (4 → 83 testes, 98.7% Stmts/99% Lines)
+- [x] Fase 10: Validação final de cobertura geral (157 testes, 97.45% Stmts / 98.45% Lines)
