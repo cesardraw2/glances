@@ -4,6 +4,9 @@ Este diretório contém a nova implementação da SPA do **Glances HUD**, que em
 
 A solução é construída com **Angular v22 (Zoneless + Signals)** no frontend e um pipeline assíncrono baseado em **Server-Sent Events (SSE)** no backend.
 
+> [!IMPORTANT]
+> Todos os comandos documentados neste manual devem ser executados a partir da **raiz do repositório Glances** (`/home/cesardraw/desenv/projects/fullstack/glances`), e não dentro deste subdiretório `hud/`.
+
 ---
 
 ## 🚀 Arquitetura & Vantagens Técnicas
