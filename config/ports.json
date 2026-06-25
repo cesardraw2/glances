@@ -1,0 +1,12 @@
+{
+  "glances-mock-backend": {
+    "port": 8000,
+    "protocol": "http",
+    "description": "Backend mock em Python para streaming de métricas SSE"
+  },
+  "glances-hud-frontend": {
+    "port": 4200,
+    "protocol": "http",
+    "description": "Frontend SPA em Angular 22+ para o HUD retro do Glances"
+  }
+}
