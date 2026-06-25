@@ -15,3 +15,4 @@
 - [x] Fase 10: Expansão da cobertura do AppComponent (2 → 35 testes, 100% Stmts/Lines)
 - [x] Fase 10: Expansão da cobertura do MetricsService (4 → 83 testes, 98.7% Stmts/99% Lines)
 - [x] Fase 10: Validação final de cobertura geral (157 testes, 97.45% Stmts / 98.45% Lines)
+- [x] Fase 11: Engenharia Reversa de BDD (Gherkin) para Orquestração, Métricas e Plugins baseados nos 157 testes unitários
