@@ -79,3 +79,6 @@ glances.local*.pem
 
 # Claudio
 .claude/settings.local.json
+
+# HUD Build Outputs
+glances/outputs/static/hud/
