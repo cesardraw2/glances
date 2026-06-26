@@ -16,3 +16,8 @@
 - [x] Fase 10: Expansão da cobertura do MetricsService (4 → 83 testes, 98.7% Stmts/99% Lines)
 - [x] Fase 10: Validação final de cobertura geral (157 testes, 97.45% Stmts / 98.45% Lines)
 - [x] Fase 11: Engenharia Reversa de BDD (Gherkin) para Orquestração, Métricas e Plugins baseados nos 157 testes unitários
+
+## Backlog: AI Insights & Telemetry
+- [ ] Jarvis System Advisor (LLM analisando métricas do sistema)
+- [ ] Anomaly Detection (Machine Learning para baselines de comportamento)
+- [ ] NPU Monitor (Telemetria para Neural Processing Units)
