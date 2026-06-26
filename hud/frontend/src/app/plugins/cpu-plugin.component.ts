@@ -11,7 +11,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (cpu()) {
-      <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
+      <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full ">
         <div class="grid grid-cols-12 gap-x-2">
           <!-- Coluna 1: CPU, user, system, idle -->
           <div class="col-span-4 flex flex-col space-y-0.5">

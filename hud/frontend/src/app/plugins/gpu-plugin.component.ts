@@ -10,7 +10,7 @@ import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (gpu() && gpu().length > 0) {
-      <app-plugin-card>
+      <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full">
         @for (g of gpu(); track g.gpu_id) {
           <div class="flex flex-col">
             <span class="text-white font-bold truncate" [title]="g.name">{{ g.name }}</span>
@@ -20,7 +20,7 @@ import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.
             </div>
           </div>
         }
-      </app-plugin-card>
+      </div>
     }
   `
 })
