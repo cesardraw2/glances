@@ -9,33 +9,33 @@
 
   <!-- Linha 2: Painel Horizontal de Recursos do Topo (sem caixas ou bordas, plano) -->
   @if (showTopMenu()) {
-    <div class="flex-none grid grid-cols-12 gap-x-4 px-1 py-2 border-b border-[#111] items-start">
+    <div class="flex-none grid grid-cols-12 px-1 py-2 border-b border-[#111] items-start divide-x divide-[#111]">
       <!-- Quicklook (bars) -->
       @if (showQuickLook()) {
-        <div class="col-span-12 md:col-span-2">
+        <div class="col-span-12 md:col-span-2 pr-4">
           <ng-container *ngComponentOutlet="componentRegistry['quicklook']"></ng-container>
         </div>
       }
       
       <!-- CPU Text Details -->
-      <div [class]="cpuColClass()">
+      <div [class]="cpuColClass() + ' px-4'">
         <ng-container *ngComponentOutlet="componentRegistry['cpu']"></ng-container>
       </div>
 
       <!-- GPU Text Details -->
       @if (showGpu() && hasGpu()) {
-        <div class="col-span-12 md:col-span-2">
+        <div class="col-span-12 md:col-span-2 px-4">
           <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
         </div>
       }
 
       <!-- MEM / SWAP Text Details -->
-      <div [class]="memColClass()">
+      <div [class]="memColClass() + ' px-4'">
         <ng-container *ngComponentOutlet="componentRegistry['mem']"></ng-container>
       </div>
 
       <!-- Load average details -->
-      <div class="col-span-12 md:col-span-2">
+      <div class="col-span-12 md:col-span-2 pl-4">
         <ng-container *ngComponentOutlet="componentRegistry['load']"></ng-container>
       </div>
     </div>
