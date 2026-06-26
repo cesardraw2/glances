@@ -241,7 +241,7 @@ describe('MetricsService', () => {
 
     it('should merge mem with memswap data', () => {
       service.metrics.set({
-        mem: { total: 16000000, used: 8000000, percent: 50 },
+        mem: { total: 16000000, used: 61208000, percent: 50 },
         memswap: { total: 4000000, used: 1000000, free: 3000000, percent: 25 }
       });
       const mem = service.mem();
@@ -253,7 +253,7 @@ describe('MetricsService', () => {
     });
 
     it('should default swap values to 0 when memswap is missing', () => {
-      service.metrics.set({ mem: { total: 8000000 } });
+      service.metrics.set({ mem: { total: 61208000 } });
       const mem = service.mem();
       expect(mem!.swap_total).toBe(0);
       expect(mem!.swap_used).toBe(0);
@@ -706,16 +706,16 @@ describe('MetricsService', () => {
   // ═══════════════════════════════════════════════════════════════
 
   describe('getBaseUrl and getApiVersionPath', () => {
-    it('should use localhost:8000 for dev port 4200', () => {
+    it('should use localhost:61208 for dev port 4200', () => {
       (global.window as any).location.port = '4200';
-      expect((service as any).getBaseUrl()).toBe('http://localhost:8000');
+      expect((service as any).getBaseUrl()).toBe('http://localhost:61208');
       expect((service as any).getApiVersionPath()).toBe('api');
     });
 
     it('should use window origin for production port', () => {
-      (global.window as any).location.port = '8000';
-      (global.window as any).location.origin = 'http://myserver:8000';
-      expect((service as any).getBaseUrl()).toBe('http://myserver:8000');
+      (global.window as any).location.port = '61208';
+      (global.window as any).location.origin = 'http://myserver:61208';
+      expect((service as any).getBaseUrl()).toBe('http://myserver:61208');
       expect((service as any).getApiVersionPath()).toBe('api/4');
     });
   });
