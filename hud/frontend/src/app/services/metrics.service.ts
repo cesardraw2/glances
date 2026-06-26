@@ -286,7 +286,7 @@ export class MetricsService {
 
   private getBaseUrl(): string {
     if (window.location.port === '4200') {
-      return 'http://localhost:8000';
+      return 'http://localhost:61208';
     }
     return window.location.origin;
   }
@@ -294,7 +294,7 @@ export class MetricsService {
   // Determina a versão da API dinâmica (se for Mock ou Real)
   private getApiVersionPath(): string {
     if (window.location.port === '4200') {
-      return 'api'; // Mock usa /api/config e /api/metrics/sse
+      return 'api/4'; // Força usar o Glances real em dev
     }
     return 'api/4'; // Glances real usa /api/4/...
   }
