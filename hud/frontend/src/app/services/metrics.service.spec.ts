@@ -884,8 +884,8 @@ describe('MetricsService', () => {
       expect(service.metrics()).toBeNull();
     });
 
-    it('should expose the full list of 12 plugins', () => {
-      expect(service.plugins()).toHaveLength(12);
+    it('should expose the full list of 13 plugins', () => {
+      expect(service.plugins()).toHaveLength(13);
       expect(service.plugins()).toContain('system');
       expect(service.plugins()).toContain('processes');
     });

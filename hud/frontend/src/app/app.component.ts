@@ -13,6 +13,7 @@ import { ProcessesPluginComponent } from './plugins/processes-plugin.component';
 import { DockerPluginComponent } from './plugins/docker-plugin.component';
 import { GpuPluginComponent } from './plugins/gpu-plugin.component';
 import { SensorsPluginComponent } from './plugins/sensors-plugin.component';
+import { OllamaPluginComponent } from './plugins/ollama-plugin.component';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,7 @@ export class AppComponent {
   readonly showQuickLook = signal<boolean>(true);
   readonly showTopMenu = signal<boolean>(true);
   readonly showSensors = signal<boolean>(true);
+  readonly showOllama = signal<boolean>(true);
 
   readonly hasGpu = computed(() => {
     const list = this.metricsService.gpu();
@@ -77,6 +79,9 @@ export class AppComponent {
     if (rawKey === 'D') {
       // 'D' maiúsculo para Docker (containers)
       this.showDocker.update(v => !v);
+    } else if (rawKey === 'O') {
+      // 'O' maiúsculo para Ollama
+      this.showOllama.update(v => !v);
     } else if (key === 'g') {
       // 'g' para GPU
       this.showGpu.update(v => !v);
@@ -134,6 +139,7 @@ export class AppComponent {
     gpu: GpuPluginComponent,
     sensors: SensorsPluginComponent,
     processes: ProcessesPluginComponent,
+    ollama: OllamaPluginComponent,
   };
 
   // Cabeçalho de Uptime e SO
@@ -171,6 +177,7 @@ export class AppComponent {
     this.activePlugins()
       .filter(p => {
         if (p === 'docker') return this.showDocker();
+        if (p === 'ollama') return this.showOllama();
         if (p === 'processes') return true;
         return false;
       })

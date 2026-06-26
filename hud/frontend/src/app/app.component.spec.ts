@@ -22,7 +22,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     mockMetricsService = {
       isConnected: signal(true),
-      plugins: signal(['system', 'quicklook', 'load', 'cpu', 'mem', 'network', 'diskio', 'fs', 'docker', 'gpu', 'sensors', 'processes']),
+      plugins: signal(['system', 'quicklook', 'load', 'cpu', 'mem', 'network', 'diskio', 'fs', 'docker', 'gpu', 'sensors', 'processes', 'ollama']),
       isAuthenticated: signal(true),
       loginError: signal(null),
       gpu: signal([]),
@@ -42,7 +42,7 @@ describe('AppComponent', () => {
     expect(app.isConnected()).toBe(true);
     expect(app.isAuthenticated()).toBe(true);
     expect(app.loginError()).toBeNull();
-    expect(app.activePlugins().length).toBe(12);
+    expect(app.activePlugins().length).toBe(13);
     expect(app.version()).toBe('v4.0.0-mock');
   });
 
@@ -118,11 +118,19 @@ describe('AppComponent', () => {
   });
 
   it('should toggle showDocker on "D" (uppercase)', () => {
-    expect(app.showDocker()).toBe(true);
+    app.showDocker.set(true);
     app.handleKeyDown(makeKeyEvent('D'));
     expect(app.showDocker()).toBe(false);
     app.handleKeyDown(makeKeyEvent('D'));
     expect(app.showDocker()).toBe(true);
+  });
+
+  it('should toggle showOllama on "O" (uppercase)', () => {
+    app.showOllama.set(true);
+    app.handleKeyDown(makeKeyEvent('O'));
+    expect(app.showOllama()).toBe(false);
+    app.handleKeyDown(makeKeyEvent('O'));
+    expect(app.showOllama()).toBe(true);
   });
 
   it('should toggle showGpu on "g"', () => {
@@ -232,7 +240,8 @@ describe('AppComponent', () => {
     expect(keys).toContain('gpu');
     expect(keys).toContain('sensors');
     expect(keys).toContain('processes');
-    expect(keys.length).toBe(12);
+    expect(keys).toContain('ollama');
+    expect(keys.length).toBe(13);
   });
 
   // ─── Computed: topPlugins ────────────────────────────────────
@@ -282,20 +291,26 @@ describe('AppComponent', () => {
   // ─── Computed: mainPlugins ───────────────────────────────────
 
   it('should include docker and processes in mainPlugins when docker is visible', () => {
-    const main = app.mainPlugins();
-    const names = main.map((p: any) => p.name);
-    expect(names).toContain('docker');
-    expect(names).toContain('processes');
-    expect(main.length).toBe(2);
+    app.showDocker.set(true);
+    app.showOllama.set(false);
+    expect(app.mainPlugins().map(p => p.name)).toEqual(['docker', 'processes']);
   });
 
-  it('should exclude docker from mainPlugins when hidden', () => {
+  it('should include ollama in mainPlugins when showOllama is true', () => {
+    mockMetricsService.plugins.set(['docker', 'ollama', 'processes']);
+    app.showDocker.set(false);
+    app.showOllama.set(true);
+    expect(app.mainPlugins().map(p => p.name)).toEqual(['ollama', 'processes']);
+  });
+
+  it('should exclude docker from mainPlugins when showDocker=false', () => {
     app.showDocker.set(false);
     const main = app.mainPlugins();
     const names = main.map((p: any) => p.name);
     expect(names).not.toContain('docker');
     expect(names).toContain('processes');
-    expect(main.length).toBe(1);
+    expect(names).toContain('ollama');
+    expect(main.length).toBe(2);
   });
 
   // ─── Visibility Signals Default State ────────────────────────
@@ -306,6 +321,7 @@ describe('AppComponent', () => {
     expect(app.showDiskIo()).toBe(true);
     expect(app.showFileSystem()).toBe(true);
     expect(app.showDocker()).toBe(true);
+    expect(app.showOllama()).toBe(true);
     expect(app.showGpu()).toBe(true);
     expect(app.showQuickLook()).toBe(true);
     expect(app.showTopMenu()).toBe(true);

@@ -7,7 +7,7 @@ export class MetricsService {
   private destroyRef = inject(DestroyRef);
 
   // Expõe a lista de plugins fixa suportada pelo HUD
-  readonly plugins = signal<string[]>(['system', 'quicklook', 'load', 'cpu', 'mem', 'network', 'diskio', 'fs', 'docker', 'gpu', 'sensors', 'processes']);
+  readonly plugins = signal<string[]>(['system', 'quicklook', 'load', 'cpu', 'mem', 'network', 'diskio', 'fs', 'docker', 'gpu', 'sensors', 'ollama', 'processes']);
 
   // Signal para gerenciar estado das métricas do stream SSE
   readonly metrics = signal<any>(null);
@@ -21,6 +21,18 @@ export class MetricsService {
   readonly processSortKey = signal<string>('cpu_percent');
   readonly containerSortKey = signal<string>('cpu_percent');
   readonly showPerCpu = signal<boolean>(false);
+
+  // Helper para formatar Bytes em strings amigáveis
+  public formatBytes(bytes: number): string {
+    if (bytes === undefined || bytes === null || isNaN(bytes) || bytes === 0) {
+      return '0 B';
+    }
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const val = parseFloat((bytes / Math.pow(k, i)).toFixed(1));
+    return `${val} ${sizes[i]}`;
+  }
 
   // Helper para formatar taxas numéricas de bytes/s do Glances em strings amigáveis
   private formatBytesRate(bytesPerSec: number): string {
@@ -180,6 +192,7 @@ export class MetricsService {
   readonly sensors = computed(() => this.metrics()?.sensors);
   readonly alerts = computed(() => this.metrics()?.alert || []);
   readonly version = computed(() => this.metrics()?.version);
+  readonly ollama = computed(() => this.metrics()?.ollama);
   
   // Compatibilidade com 'processes' (Mock) ou 'processlist' (Glances Real)
   readonly rawProcesses = computed(() => {

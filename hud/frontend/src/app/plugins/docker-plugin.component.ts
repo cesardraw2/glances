@@ -9,7 +9,7 @@ import { MetricsService } from '../services/metrics.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (containers() && containers().length > 0) {
-      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4">
+      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
         <!-- Containers header -->
         <div class="text-white font-bold mb-2">
           CONTAINERS {{ containers().length }} sorted by {{ sortKey() === 'cpu_percent' ? 'CPU consumption' : (sortKey() === 'memory_usage' ? 'Memory consumption' : 'Name') }}

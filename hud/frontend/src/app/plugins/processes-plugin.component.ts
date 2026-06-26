@@ -8,7 +8,7 @@ import { MetricsService } from '../services/metrics.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (processes(); as procs) {
-      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full">
+      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
           TASKS {{ processcount()?.total || procs.length }} ({{ processcount()?.thread || 0 }} thr), {{ processcount()?.running || 0 }} run, {{ processcount()?.sleeping || 0 }} slp sorted by {{ sortKey() }}, flat view
