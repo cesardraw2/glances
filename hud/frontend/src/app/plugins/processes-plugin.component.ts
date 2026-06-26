@@ -122,20 +122,7 @@ export class ProcessesPluginComponent {
 
   readonly formattedProcesses = computed(() => {
     const procs = this.processes();
-    if (!procs) return null;
-    
-    // Do not slice, expose all processes for Virtual Scroll
-    return procs.map((proc: any) => ({
-      ...proc,
-      _cpuClass: this.cpuClass(proc.cpu_percent),
-      _cpuStr: proc.cpu_percent.toFixed(1),
-      _memStr: (proc.mem_percent !== undefined ? proc.mem_percent : (proc.memory_percent !== undefined ? proc.memory_percent : 0)).toFixed(1),
-      _virtStr: this.getVirt(proc),
-      _resStr: this.getRes(proc),
-      _timeStr: this.formatProcessTime(proc.cpu_times),
-      _statusStr: this.getProcessStatus(proc),
-      _isRunning: this.isProcessRunning(proc)
-    }));
+    return procs || null;
   });
 
   @MeasureRender()
