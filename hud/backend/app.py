@@ -30,7 +30,7 @@ SYSTEM_INFO = {
 EXTENDED_PROCESS_PID = None
 
 # Configuração dos plugins ativos (simulando glances.conf)
-ACTIVE_PLUGINS = ["system", "quicklook", "load", "cpu", "mem", "network", "diskio", "fs", "processes"]
+ACTIVE_PLUGINS = ["system", "quicklook", "load", "cpu", "mem", "network", "diskio", "fs", "docker", "processes", "ollama"]
 
 # Mock de base para processos
 PROCESS_NAMES = [
@@ -247,7 +247,22 @@ def generate_metrics():
         }
     ]
 
-    # 8. Processos
+    # 8. Ollama Monitor
+    # Simula dois modelos carregados
+    ollama_data = [
+        {
+            "name": "llama3:8b",
+            "size": 4661214614,
+            "size_vram": 4661214614 + random.randint(1024*1024, 1024*1024*50) # Flutua VRAM usada
+        },
+        {
+            "name": "nomic-embed-text:latest",
+            "size": 274384661,
+            "size_vram": 274384661
+        }
+    ]
+
+    # 9. Processos
     # Vamos gerar uma lista de processos dinamicamente baseada nos modelos
     processes = []
     pids = list(range(1000, 1010))
@@ -328,6 +343,7 @@ def generate_metrics():
         "network": network_data,
         "diskio": diskio_data,
         "fs": fs_data,
+        "ollama": ollama_data,
         "processes": processes
     }
     return metrics

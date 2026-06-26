@@ -10,6 +10,8 @@
 
 import inspect
 import os
+import asyncio
+import json
 import socket
 import sys
 import webbrowser
@@ -51,7 +53,7 @@ try:
     from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, status
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.middleware.gzip import GZipMiddleware
-    from fastapi.responses import HTMLResponse, JSONResponse
+    from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
     from fastapi.security import HTTPBasic, HTTPBasicCredentials
     from fastapi.staticfiles import StaticFiles
     from fastapi.templating import Jinja2Templates
@@ -531,6 +533,9 @@ class GlancesRestfulApi:
         router.add_api_route(
             f'{base_path}/processes/extended/{{pid}}', self._api_set_extended_processes, methods=['POST']
         )
+        router.add_api_route(
+            f'{base_path}/metrics/sse', self._api_metrics_sse, methods=['GET']
+        )
 
         # GET
         route_mapping = {
@@ -635,6 +640,14 @@ class GlancesRestfulApi:
             bindmsg = f'Glances Web User Interface started on {self.bind_url}'
             logger.info(bindmsg)
             print(bindmsg)
+            
+            # HUD
+            hud_path = os.path.join(os.path.dirname(self.STATIC_PATH), 'hud')
+            if os.path.exists(hud_path):
+                self._app.mount(self.url_prefix + '/hud', StaticFiles(directory=hud_path, html=True), name="hud")
+                bindmsg_hud = f'Glances HUD User Interface started on {self.bind_url}hud/'
+                logger.info(bindmsg_hud)
+                print(bindmsg_hud)
         else:
             logger.info('The WebUI is disable (--disable-webui)')
 
