@@ -1,13 +1,15 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
+import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
 
 @Component({
   selector: 'app-ollama-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent, FormatBytesPipe],
   template: `
-    <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
+    <app-plugin-card>
       <div class="text-white font-bold mb-2">
         OLLAMA {{ ollamaList().length }} models loaded in VRAM
       </div>
@@ -28,15 +30,15 @@ import { MetricsService } from '../services/metrics.service';
               @for (model of ollamaList(); track model.name; let idx = $index) {
                 <tr>
                   <td class="text-left text-green-500 font-bold truncate">{{ model.name }}</td>
-                  <td class="text-right text-white">{{ format(model.size) }}</td>
-                  <td class="text-right text-purple-400">{{ format(model.size_vram) }}</td>
+                  <td class="text-right text-white">{{ model.size | formatBytes }}</td>
+                  <td class="text-right text-purple-400">{{ model.size_vram | formatBytes }}</td>
                 </tr>
               }
             </tbody>
           </table>
         </div>
       }
-    </div>
+    </app-plugin-card>
   `
 })
 export class OllamaPluginComponent {
@@ -46,8 +48,4 @@ export class OllamaPluginComponent {
     const list = this.metricsService.ollama();
     return Array.isArray(list) ? list : [];
   });
-
-  format(bytes: number): string {
-    return this.metricsService.formatBytes(bytes);
-  }
 }

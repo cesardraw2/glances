@@ -1,14 +1,18 @@
 import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
+import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
+import { MeasureRender } from '../core/decorators/aop.decorators';
 
 @Component({
+  selector: 'app-processes-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent, FormatBytesPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (processes(); as procs) {
-      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
+      <app-plugin-card>
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
           TASKS {{ processcount()?.total || procs.length }} ({{ processcount()?.thread || 0 }} thr), {{ processcount()?.running || 0 }} run, {{ processcount()?.sleeping || 0 }} slp sorted by {{ sortKey() }}, flat view
@@ -126,21 +130,25 @@ import { MetricsService } from '../services/metrics.service';
             </tbody>
           </table>
         </div>
-      </div>
+      </app-plugin-card>
     }
   `
 })
 export class ProcessesPluginComponent {
   private metricsService = inject(MetricsService);
+  private bytesPipe = new FormatBytesPipe(); // used internally by getVirt/getRes
+
   readonly processes = this.metricsService.processes;
   readonly processcount = this.metricsService.processcount;
   readonly sortKey = this.metricsService.processSortKey;
   readonly extendedProcess = this.metricsService.extendedProcess;
 
+  @MeasureRender()
   changeSort(key: string) {
     this.metricsService.processSortKey.set(key);
   }
 
+  @MeasureRender()
   pin(pid: number) {
     if (this.extendedProcess()?.pid === pid) {
       this.unpin();
@@ -149,6 +157,7 @@ export class ProcessesPluginComponent {
     }
   }
 
+  @MeasureRender()
   unpin() {
     this.metricsService.unpinProcess();
   }
@@ -159,25 +168,16 @@ export class ProcessesPluginComponent {
     return 'ok';
   }
 
-  formatBytes(bytes: number): string {
-    if (!bytes || bytes === 0) return '0B';
-    const k = 1024;
-    const sizes = ['B', 'K', 'M', 'G', 'T'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const val = parseFloat((bytes / Math.pow(k, i)).toFixed(1));
-    return `${val}${sizes[i]}`;
-  }
-
   getVirt(proc: any): string {
     if (proc.memory_info?.vms !== undefined) {
-      return this.formatBytes(proc.memory_info.vms);
+      return this.bytesPipe.transform(proc.memory_info.vms);
     }
     return this.getMockVirt(proc.name);
   }
 
   getRes(proc: any): string {
     if (proc.memory_info?.rss !== undefined) {
-      return this.formatBytes(proc.memory_info.rss);
+      return this.bytesPipe.transform(proc.memory_info.rss);
     }
     return this.getMockRes(proc.name);
   }

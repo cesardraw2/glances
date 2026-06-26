@@ -1,20 +1,24 @@
 import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
+import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
+import { FormatRatePipe } from '../core/pipes/format-rate.pipe';
+import { MeasureRender } from '../core/decorators/aop.decorators';
 
 @Component({
   selector: 'app-docker-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent, FormatBytesPipe, FormatRatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (containers() && containers().length > 0) {
-      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
+      <app-plugin-card>
         <!-- Containers header -->
         <div class="text-white font-bold mb-2">
           CONTAINERS {{ containers().length }} sorted by {{ sortKey() === 'cpu_percent' ? 'CPU consumption' : (sortKey() === 'memory_usage' ? 'Memory consumption' : 'Name') }}
         </div>
-        
+
         <!-- Table -->
         <div class="w-full overflow-x-auto font-mono">
           <table class="w-full text-left font-mono">
@@ -42,19 +46,19 @@ import { MetricsService } from '../services/metrics.service';
             </thead>
             <tbody>
               @for (c of containers(); track c.id || c.name) {
-                <tr (click)="toggleHighlight(c.id || c.name)" 
+                <tr (click)="toggleHighlight(c.id || c.name)"
                     [ngClass]="highlightedContainerId() === (c.id || c.name) ? 'bg-[#002f00] text-green-300 font-bold border-y border-green-600' : 'even:bg-[#111] hover:bg-[#222]'"
                     class="cursor-pointer transition-colors duration-150">
                   <td class="pr-2 py-0.5 align-middle text-white font-bold truncate max-w-[190px]" [title]="c.name">{{ c.name }}</td>
                   <td class="pr-2 py-0.5 align-middle" [class]="getStatusClass(c.status)">{{ c.status }}</td>
                   <td class="pr-2 py-0.5 align-middle text-[#aaa]">{{ c.uptime || '-' }}</td>
                   <td class="pr-2 py-0.5 align-middle text-right font-bold text-green-500">{{ (c.cpu_percent || 0).toFixed(1) }}%</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ formatBytes(c.memory_usage || c.memory?.usage || 0) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ formatBytes(c.memory_limit || c.memory?.limit || 0) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ formatRate(c.io?.ior) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ formatRate(c.io?.iow) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ formatRate(c.network?.rx) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ formatRate(c.network?.tx) }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ (c.memory_usage || c.memory?.usage || 0) | formatBytes }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ (c.memory_limit || c.memory?.limit || 0) | formatBytes }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ c.io?.ior | formatRate }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ c.io?.iow | formatRate }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ c.network?.rx | formatRate }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">{{ c.network?.tx | formatRate }}</td>
                   <td class="pr-2 py-0.5 align-middle text-[#aaa] truncate max-w-[120px]" [title]="c.ports">{{ c.ports || '-' }}</td>
                   <td class="pl-2 py-0.5 align-middle text-[#aaa] truncate max-w-[200px]" [title]="getCommandStr(c.command)">{{ getCommandStr(c.command) }}</td>
                 </tr>
@@ -62,7 +66,7 @@ import { MetricsService } from '../services/metrics.service';
             </tbody>
           </table>
         </div>
-      </div>
+      </app-plugin-card>
     }
   `
 })
@@ -72,10 +76,12 @@ export class DockerPluginComponent {
   readonly sortKey = this.metricsService.containerSortKey;
   readonly highlightedContainerId = signal<string | null>(null);
 
+  @MeasureRender()
   changeSort(key: string) {
     this.metricsService.containerSortKey.set(key);
   }
 
+  @MeasureRender()
   toggleHighlight(id: string) {
     if (this.highlightedContainerId() === id) {
       this.highlightedContainerId.set(null);
@@ -89,20 +95,6 @@ export class DockerPluginComponent {
     if (s === 'healthy' || s === 'running' || s === 'up') return 'text-green-500 font-bold';
     if (s === 'unhealthy' || s === 'dead' || s === 'exited') return 'text-red-500 font-bold';
     return 'text-yellow-500 font-bold';
-  }
-
-  formatBytes(bytes: number): string {
-    if (!bytes || bytes === 0) return '0B';
-    const k = 1024;
-    const sizes = ['B', 'K', 'M', 'G', 'T'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const val = parseFloat((bytes / Math.pow(k, i)).toFixed(1));
-    return `${val}${sizes[i]}`;
-  }
-
-  formatRate(rate: number | undefined): string {
-    if (rate === undefined || rate === null || isNaN(rate) || rate === 0) return '0';
-    return this.formatBytes(rate);
   }
 
   getCommandStr(cmd: any): string {
