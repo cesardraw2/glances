@@ -1,32 +1,36 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
+import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
+import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
 
 @Component({
+  selector: 'app-mem-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent, FormatBytesPipe, AlertClassPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (mem()) {
-      <div class="font-mono text-[12px] text-white leading-relaxed select-none">
+      <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
         <div class="grid grid-cols-12 gap-x-2">
           <!-- Coluna 1: MEM, total, used, free -->
           <div class="col-span-4 flex flex-col space-y-0.5">
             <div class="flex justify-between">
               <span class="text-[#888] font-bold">MEM</span>
-              <span [class]="getAlertClass(mem().percent)">{{ mem().percent }}%</span>
+              <span [class]="mem().percent | alertClass">{{ mem().percent }}%</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">total:</span>
-              <span>{{ formatBytes(mem().total) }}</span>
+              <span>{{ mem().total | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">used:</span>
-              <span class="bg-careful text-white px-0.5 font-bold">{{ formatBytes(mem().used) }}</span>
+              <span class="bg-careful text-white px-0.5 font-bold">{{ mem().used | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">free:</span>
-              <span>{{ formatBytes(mem().free) }}</span>
+              <span>{{ mem().free | formatBytes }}</span>
             </div>
           </div>
 
@@ -34,19 +38,19 @@ import { MetricsService } from '../services/metrics.service';
           <div class="col-span-4 flex flex-col space-y-0.5">
             <div class="flex justify-between">
               <span class="text-[#888]">active:</span>
-              <span>{{ formatBytes(mem().active) }}</span>
+              <span>{{ mem().active | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">inactive:</span>
-              <span>{{ formatBytes(mem().inactive) }}</span>
+              <span>{{ mem().inactive | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">buffers:</span>
-              <span>{{ formatBytes(mem().buffers) }}</span>
+              <span>{{ mem().buffers | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">cached:</span>
-              <span>{{ formatBytes(mem().cached) }}</span>
+              <span>{{ mem().cached | formatBytes }}</span>
             </div>
           </div>
 
@@ -54,19 +58,19 @@ import { MetricsService } from '../services/metrics.service';
           <div class="col-span-4 flex flex-col space-y-0.5">
             <div class="flex justify-between">
               <span class="text-[#888] font-bold">SWAP</span>
-              <span [class]="getAlertClass(mem().swap_percent)">{{ mem().swap_percent }}%</span>
+              <span [class]="mem().swap_percent | alertClass">{{ mem().swap_percent }}%</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">total:</span>
-              <span>{{ formatBytes(mem().swap_total) }}</span>
+              <span>{{ mem().swap_total | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">used:</span>
-              <span class="bg-ok text-white px-0.5 font-bold">{{ formatBytes(mem().swap_used) }}</span>
+              <span class="bg-ok text-white px-0.5 font-bold">{{ mem().swap_used | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">free:</span>
-              <span>{{ formatBytes(mem().swap_free) }}</span>
+              <span>{{ mem().swap_free | formatBytes }}</span>
             </div>
           </div>
         </div>
@@ -77,23 +81,4 @@ import { MetricsService } from '../services/metrics.service';
 export class MemPluginComponent {
   private metricsService = inject(MetricsService);
   readonly mem = this.metricsService.mem;
-
-  getAlertClass(percent: number): string {
-    if (percent >= 90) return 'critical font-bold';
-    if (percent >= 75) return 'warning font-bold';
-    return 'ok font-bold';
-  }
-
-  formatBytes(bytes: number): string {
-    if (bytes === 0) return '0B';
-    const k = 1024;
-    const sizes = ['B', 'K', 'M', 'G', 'T'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
-    // Se for GB, exibe como G (ex: 1.9G em vez de 1.94GB, ou 1.3G)
-    // Se for MB, exibe como M (ex: 512M)
-    const val = parseFloat((bytes / Math.pow(k, i)).toFixed(1));
-    const suffix = sizes[i] === 'B' ? 'B' : (sizes[i] === 'K' ? 'K' : (sizes[i] === 'M' ? 'M' : (sizes[i] === 'G' ? 'G' : 'T')));
-    return `${val}${suffix}`;
-  }
 }

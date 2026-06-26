@@ -1,15 +1,16 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
 
 @Component({
   selector: 'app-gpu-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (gpu() && gpu().length > 0) {
-      <div class="font-mono text-[12px] text-white leading-relaxed select-none">
+      <app-plugin-card>
         @for (g of gpu(); track g.gpu_id) {
           <div class="flex flex-col">
             <span class="text-white font-bold truncate" [title]="g.name">{{ g.name }}</span>
@@ -19,7 +20,7 @@ import { MetricsService } from '../services/metrics.service';
             </div>
           </div>
         }
-      </div>
+      </app-plugin-card>
     }
   `
 })
