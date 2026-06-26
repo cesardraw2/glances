@@ -76,7 +76,13 @@
          class="overflow-y-auto max-h-full pr-1 space-y-4">
       @for (item of mainPlugins(); track item.name) {
         <div class="block">
-          <ng-container *ngComponentOutlet="item.component"></ng-container>
+          @defer (on timer(10ms)) {
+            <ng-container *ngComponentOutlet="item.component"></ng-container>
+          } @placeholder {
+            <div class="p-4 text-center text-[#555] text-[12px] animate-pulse">
+              [ INITIALIZING {{ item.name | uppercase }} MODULE ]
+            </div>
+          }
         </div>
       }
     </div>
