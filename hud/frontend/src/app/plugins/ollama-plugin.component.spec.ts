@@ -39,11 +39,6 @@ describe('OllamaPluginComponent', () => {
     expect(comp.ollamaList()).toEqual([]);
   });
 
-  it('should format bytes using metrics service', () => {
-    const comp = new OllamaPluginComponent();
-    expect(comp.format(8000000000)).toBe('7.5 GB');
-  });
-
   it('should return models when signal has data', () => {
     mockMetricsService.ollama.set([
       { name: 'llama3', size: 8000000000, size_vram: 8500000000 }

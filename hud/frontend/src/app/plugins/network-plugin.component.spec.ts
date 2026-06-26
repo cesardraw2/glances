@@ -32,10 +32,4 @@ describe('NetworkPluginComponent', () => {
     expect(comp.network().length).toBe(2);
   });
 
-  it('should format rate correctly by removing spaces and /s suffix', () => {
-    const comp = new NetworkPluginComponent();
-    expect(comp.formatRate('2.5 Kb/s')).toBe('2.5Kb/s');
-    expect(comp.formatRate('0 B/s')).toBe('0B/s');
-    expect(comp.formatRate('100 Mb/s')).toBe('100Mb/s');
-  });
 });

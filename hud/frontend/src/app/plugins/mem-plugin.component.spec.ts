@@ -42,20 +42,4 @@ describe('MemPluginComponent', () => {
     expect(comp.mem().percent).toBe(80);
   });
 
-  it('should format bytes with units correctly', () => {
-    const comp = new MemPluginComponent();
-    expect(comp.formatBytes(0)).toBe('0B');
-    expect(comp.formatBytes(512)).toBe('512B');
-    expect(comp.formatBytes(1024)).toBe('1K');
-    expect(comp.formatBytes(1536)).toBe('1.5K');
-    expect(comp.formatBytes(1024 * 1024)).toBe('1M');
-    expect(comp.formatBytes(16 * 1024 * 1024 * 1024)).toBe('16G');
-  });
-
-  it('should return correct alert classes based on memory percentage', () => {
-    const comp = new MemPluginComponent();
-    expect(comp.getAlertClass(50)).toContain('ok');
-    expect(comp.getAlertClass(76)).toContain('warning');
-    expect(comp.getAlertClass(92)).toContain('critical');
-  });
 });

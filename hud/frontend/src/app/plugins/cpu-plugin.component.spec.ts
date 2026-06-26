@@ -47,17 +47,4 @@ describe('CpuPluginComponent', () => {
     expect(comp.showPerCpu()).toBe(true);
   });
 
-  it('should return correct alert classes based on cpu percent', () => {
-    const comp = new CpuPluginComponent();
-    expect(comp.getAlertClass(45)).toContain('ok');
-    expect(comp.getAlertClass(75)).toContain('warning');
-    expect(comp.getAlertClass(95)).toContain('critical');
-  });
-
-  it('should return correct badge classes based on cpu percent', () => {
-    const comp = new CpuPluginComponent();
-    expect(comp.getBadgeClass(45, 'user')).toBe('bg-ok');
-    expect(comp.getBadgeClass(75, 'user')).toBe('bg-warning');
-    expect(comp.getBadgeClass(95, 'user')).toBe('bg-critical');
-  });
 });

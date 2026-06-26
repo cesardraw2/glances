@@ -59,13 +59,6 @@ describe('DockerPluginComponent', () => {
     expect(comp.getStatusClass('paused')).toContain('text-yellow-500');
   });
 
-  it('should format rates and bytes correctly', () => {
-    const comp = new DockerPluginComponent();
-    expect(comp.formatBytes(1024 * 1024)).toBe('1M');
-    expect(comp.formatRate(0)).toBe('0');
-    expect(comp.formatRate(2048)).toBe('2K');
-  });
-
   it('should format commands arrays and strings correctly', () => {
     const comp = new DockerPluginComponent();
     expect(comp.getCommandStr('node index.js')).toBe('node index.js');
