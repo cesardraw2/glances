@@ -536,3 +536,23 @@ Funcionalidade: Componentes de Plugin do HUD
         | S        | S      | false       |
         | zombie   | Z      | false       |
         | sleeping | S      | false       |
+
+  # ───────────────────────────────────────────────────────────────
+  # Rule FGH003_SP012 - Monitoramento Ollama
+  # ───────────────────────────────────────────────────────────────
+  Regra: O plugin Ollama deve exibir os modelos locais carregados na VRAM
+
+    @swimlane("HudFrontend")
+    Cenário: FGH003_A075 - Lista vazia quando não há modelos na VRAM
+      Dado que o sistema não possui métricas de ollama carregadas
+      Quando o componente ollama for renderizado
+      Então o estado vazio "No active models." deve ser exibido
+      E a tabela de modelos não deve ser visível
+
+    @swimlane("HudFrontend")
+    Cenário: FGH003_A076 - Exibição de modelos e VRAM consumida
+      Dado que o sistema reporta modelos ollama carregados na VRAM
+      Quando o componente ollama for renderizado
+      Então deve exibir a contagem total de modelos no cabeçalho
+      E deve apresentar uma tabela com os campos "Model", "Size" e "VRAM"
+      E o tamanho deve ser formatado corretamente (ex: 4.7 GB)
