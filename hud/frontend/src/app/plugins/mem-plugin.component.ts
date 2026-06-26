@@ -8,7 +8,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
 @Component({
   selector: 'app-mem-plugin',
   standalone: true,
-  imports: [CommonModule, PluginCardComponent, FormatBytesPipe, AlertClassPipe],
+  imports: [CommonModule, FormatBytesPipe, AlertClassPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (mem()) {

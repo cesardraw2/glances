@@ -7,7 +7,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
 @Component({
   selector: 'app-cpu-plugin',
   standalone: true,
-  imports: [CommonModule, PluginCardComponent, AlertClassPipe],
+  imports: [CommonModule, AlertClassPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (cpu()) {
