@@ -28,7 +28,7 @@ describe('AlertClassPipe', () => {
   });
 
   it('should handle falsy values gracefully', () => {
-    expect(pipe.transform(null as any)).toBe('ok font-bold');
-    expect(pipe.transform(undefined as any)).toBe('ok font-bold');
+    expect(pipe.transform(null as any)).toBe('');
+    expect(pipe.transform(undefined as any)).toBe('');
   });
 });

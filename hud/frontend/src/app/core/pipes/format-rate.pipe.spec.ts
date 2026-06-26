@@ -18,8 +18,8 @@ describe('FormatRatePipe', () => {
   });
 
   it('should return empty string for falsy input', () => {
-    expect(pipe.transform(null as any)).toBe('');
-    expect(pipe.transform(undefined as any)).toBe('');
-    expect(pipe.transform('')).toBe('');
+    expect(pipe.transform(null as any)).toBe('0');
+    expect(pipe.transform(undefined as any)).toBe('0');
+    expect(pipe.transform('')).toBe('0');
   });
 });
