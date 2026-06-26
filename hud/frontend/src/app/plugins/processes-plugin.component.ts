@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MetricsService } from '../services/metrics.service';
 import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
@@ -11,7 +11,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   imports: [CommonModule, PluginCardComponent, FormatBytesPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (processes(); as procs) {
+    @if (formattedProcesses(); as procs) {
       <app-plugin-card>
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
@@ -104,21 +104,21 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
                 <tr (click)="pin(proc.pid)" 
                     [ngClass]="extendedProcess()?.pid === proc.pid ? 'bg-[#002f00] text-green-300 font-bold border-y border-green-600' : 'even:bg-[#111] hover:bg-[#222]'"
                     class="cursor-pointer transition-colors duration-150">
-                  <td class="pr-2 py-0.5 align-middle text-right font-bold" [class]="cpuClass(proc.cpu_percent)">
-                    {{ proc.cpu_percent.toFixed(1) }}
+                  <td class="pr-2 py-0.5 align-middle text-right font-bold" [class]="proc._cpuClass">
+                    {{ proc._cpuStr }}
                   </td>
                   <td class="pr-2 py-0.5 align-middle text-right text-green-500">
-                    {{ (proc.mem_percent !== undefined ? proc.mem_percent : (proc.memory_percent !== undefined ? proc.memory_percent : 0)).toFixed(1) }}
+                    {{ proc._memStr }}
                   </td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ getVirt(proc) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ getRes(proc) }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc._virtStr }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc._resStr }}</td>
                   <td class="pr-2 py-0.5 align-middle text-right text-white">{{ proc.pid }}</td>
                   <td class="pr-2 py-0.5 align-middle text-[#aaa] truncate max-w-[70px]">{{ proc.username }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ formatProcessTime(proc.cpu_times) }}</td>
+                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc._timeStr }}</td>
                   <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc.num_threads !== undefined ? proc.num_threads : 0 }}</td>
                   <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc.nice !== undefined ? proc.nice : 0 }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-center" [class]="isProcessRunning(proc) ? 'text-green-500 font-bold' : 'text-[#666]'">
-                    {{ getProcessStatus(proc) }}
+                  <td class="pr-2 py-0.5 align-middle text-center" [class]="proc._isRunning ? 'text-green-500 font-bold' : 'text-[#666]'">
+                    {{ proc._statusStr }}
                   </td>
                   <td class="pr-2 py-0.5 align-middle text-right text-[#666]">0</td>
                   <td class="pr-2 py-0.5 align-middle text-right text-[#666]">0</td>
@@ -142,6 +142,24 @@ export class ProcessesPluginComponent {
   readonly processcount = this.metricsService.processcount;
   readonly sortKey = this.metricsService.processSortKey;
   readonly extendedProcess = this.metricsService.extendedProcess;
+
+  readonly formattedProcesses = computed(() => {
+    const procs = this.processes();
+    if (!procs) return null;
+    
+    // Slice to top 100 to save DOM nodes and pre-calculate all formatting
+    return procs.slice(0, 100).map((proc: any) => ({
+      ...proc,
+      _cpuClass: this.cpuClass(proc.cpu_percent),
+      _cpuStr: proc.cpu_percent.toFixed(1),
+      _memStr: (proc.mem_percent !== undefined ? proc.mem_percent : (proc.memory_percent !== undefined ? proc.memory_percent : 0)).toFixed(1),
+      _virtStr: this.getVirt(proc),
+      _resStr: this.getRes(proc),
+      _timeStr: this.formatProcessTime(proc.cpu_times),
+      _statusStr: this.getProcessStatus(proc),
+      _isRunning: this.isProcessRunning(proc)
+    }));
+  });
 
   @MeasureRender()
   changeSort(key: string) {
