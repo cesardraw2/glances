@@ -2,6 +2,10 @@
 
 > *"Are you living in the real world?"*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/g2V8KS4AfwyFq/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Se você já deu manutenção em um projeto frontend legado, sabe qual é a principal causa de noites mal dormidas: **Código Espaguete**. Quando serviços, requisições de rede e lógica de apresentação se misturam num caldeirão sem dono, adicionar uma feature nova costuma quebrar três funcionalidades velhas.
 
 Nos artigos anteriores, focamos pesadamente em performance pura. Mas na **Parte 6**, o assunto é Arquitetura, Modularidade e como o mecanismo nativo de Injeção de Dependências (DI) do Angular 22 brilhou quando fomos além da especificação original e adicionamos um monitor de Inteligência Artificial Local (Ollama) ao Glances.

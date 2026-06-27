@@ -2,6 +2,10 @@
 
 > *"Sleeping beast"*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/Fml0fgAxVx1eM/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Na Parte 3 dessa jornada de reescrita do Glances HUD, nós dissecamos como os **Angular Signals** despacham a velha reatividade baseada em Proxies do Vue 3 para escanteio, aliviando o consumo absurdo de CPU causado por atualizações rápidas.
 
 Mas ter os dados chegando voando no JavaScript não é o suficiente se o renderizador da interface (o HTML) não souber lidar com eles. É aqui que entra uma das maiores maravilhas do desenvolvimento moderno: o novo **Control Flow do Angular 22**.

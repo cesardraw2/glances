@@ -2,6 +2,10 @@
 
 > *"Cowboy Bebop at his best"*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/b21HcSrrBu8pi/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Muitas equipes de backend acreditam que o trabalho está pronto no momento em que a API cospe um JSON válido com status 200. Mas no ecossistema de observabilidade, um JSON gigantesco cheio de hashes e bytes não filtrados é absolutamente intragável para um operador cansado às 3 da manhã.
 
 Nos artigos passados focamos pesado na infraestrutura do Angular 22 (Signals, Zoneless, Vitest). Na **Parte 8**, vamos falar sobre **Transformação Visual de Dados (UX)**: como pegamos dados brutos e hostis do Docker e os transformamos em algo que parece ter saído de um filme de ficção científica.

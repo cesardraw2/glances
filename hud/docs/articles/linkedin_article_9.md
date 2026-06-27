@@ -2,6 +2,10 @@
 
 > *"Whatever happens, happens."*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/br8dqCCmLppls5NDIG/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Chegamos àquele momento crítico que separa uma dashboard comum de um produto de altíssima engenharia. Se você já monitorou um servidor em sobrecarga com centenas de processos e dezenas de contêineres Docker, sabe que renderizar tudo isso na tela pode ser o golpe de misericórdia no navegador do usuário.
 
 No **Glances Web UI** original (feito em Vue 3), a lista de processos é desenhada usando a clássica renderização em loop de uma tag `<table>`. Quando você tem 500 processos ativos atualizando a cada 1 segundo, o navegador é forçado a destruir e reconstruir milhares de *nodes* do DOM incessantemente. O resultado? O clássico engasgo na tela, picos severos no consumo de RAM e aquela sensação de que o painel está "pesado".

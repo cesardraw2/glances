@@ -2,6 +2,10 @@
 
 > *"Easy Come, Easy Go..."*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/vncgdgPWLwGRi/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Na Parte 1 dessa série, mostramos como eliminamos a pesada configuração do Webpack e o `zone.js`, inicializando nosso projeto Angular 22 com extrema leveza. Hoje, vamos falar de um dos maiores problemas no desenvolvimento Front-end moderno: **O vício em dependências de terceiros**.
 
 Quando abrimos o `package.json` da interface Vue 3 original do Glances, encontramos uma verdadeira coleção de bibliotecas externas para tarefas triviais. Havia `lodash` para manipular objetos, `bootstrap` empacotado para o layout e, o que mais me chamou a atenção, uma biblioteca inteira chamada `hotkeys-js` apenas para escutar atalhos do teclado do usuário.

@@ -2,6 +2,10 @@
 
 > *"Asteroid Blues"*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/xT9IgGXuJ7VHNkOfuw/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Quem acompanha o mundo de monitoramento open-source com certeza conhece o **Glances**. Ele é, de longe, uma das ferramentas de telemetria mais populares construídas em Python. Mas você já abriu o código-fonte da interface web (HUD) que vem embutida nele?
 
 O front-end original é construído em **Vue 3** com um ecossistema ancorado no Webpack. Funciona? Sim! Mas, como um verdadeiro entusiasta da alta performance, eu me fiz a clássica pergunta de engenheiro: *"E se eu reescrever tudo isso usando as tecnologias mais agressivas do **Angular 22**?"*

@@ -2,6 +2,10 @@
 
 > *"You're Gonna Carry That Weight."*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/O8ZHE5GefZAli/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Nosso Glances HUD estava devorando o mínimo de memória possível (com Virtual Scroll) e o máximo de FPS (com Web Workers). Mas ainda havia um "cheiro ruim" clássico da web: sempre que o servidor demorava meio segundo a mais para carregar um bloco de contêineres, toda a tela dava um solavanco para baixo, empurrando os outros gráficos.
 
 Bem-vindo ao mundo do **Cumulative Layout Shift (CLS)**, o maior inimigo de um dashboard em tempo real, e a nossa caçada final em direção à glória do Lighthouse: a nota 100/100/100/100.

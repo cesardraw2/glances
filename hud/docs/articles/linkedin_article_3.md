@@ -2,6 +2,10 @@
 
 > *"Do you have a comrade?"*
 
+<div align="center">
+  <img src="https://media.giphy.com/media/10ZuedtImbopos/giphy.gif" width="600" style="border-radius: 8px;"/>
+</div>
+
 Se você já construiu um painel de monitoramento que pisca e atualiza milhares de dados a cada segundo, sabe que o coração do projeto não é o CSS ou os componentes visuais, mas sim o motor de **Reatividade**. 
 
 Na Parte 2 desta série, vimos como eliminamos bibliotecas inúteis focando no "Zero-Dependency Mindset". Hoje, vamos colocar o motor V8 para trabalhar e comparar como a UI original do Glances lida com estado global versus a nossa reconstrução no Angular 22.
