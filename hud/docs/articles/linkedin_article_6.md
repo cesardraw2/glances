@@ -72,7 +72,7 @@ Você prefere o modelo de Contextos Globais (como Vuex/Pinia e Redux) ou a Inje�
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [ollama-plugin.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/plugins/ollama-plugin.component.ts)
+- [ollama-plugin.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/plugins/ollama/ollama-plugin.component.ts)
 
 
 > *"See You Space Cowboy..."* 🚀
