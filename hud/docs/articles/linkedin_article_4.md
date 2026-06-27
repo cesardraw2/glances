@@ -3,7 +3,7 @@
 > *"Sleeping beast"*
 
 <div align="center">
-  <img src="https://media.tenor.com/FQQm9DCPSDoAAAAC/bang-finger-gun.gif" width="600" style="border-radius: 8px;"/>
+  <img src="../imgs/spike_broom.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Na Parte 3 dessa jornada de reescrita do Glances HUD, nós dissecamos como os **Angular Signals** despacham a velha reatividade baseada em Proxies do Vue 3 para escanteio, aliviando o consumo absurdo de CPU causado por atualizações rápidas.

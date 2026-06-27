@@ -2,7 +2,7 @@
 ## Prefácio e Índice Oficial
 
 <div align="center">
-  <img src="https://media.giphy.com/media/4ilFRqgbzbx4c/giphy.gif" width="600" style="border-radius: 8px;"/>
+  <img src="../imgs/crew_lineup.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Nesta jornada épica de reengenharia, documentamos em 10 artigos técnicos como transformamos o frontend legado do Glances (construído em Vue 3) em uma máquina de altíssima performance no Angular 22.
