@@ -3,7 +3,7 @@
 > *"Are you living in the real world?"*
 
 <div align="center">
-  <img src="https://media.giphy.com/media/g2V8KS4AfwyFq/giphy.gif" width="600" style="border-radius: 8px;"/>
+  <img src="https://media.tenor.com/l-mAGjDCNpoAAAAC/spike-cowboybebop.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Se você já deu manutenção em um projeto frontend legado, sabe qual é a principal causa de noites mal dormidas: **Código Espaguete**. Quando serviços, requisições de rede e lógica de apresentação se misturam num caldeirão sem dono, adicionar uma feature nova costuma quebrar três funcionalidades velhas.

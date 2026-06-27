@@ -3,7 +3,7 @@
 > *"The work, which becomes a new genre itself..."*
 
 <div align="center">
-  <img src="https://media.giphy.com/media/GrUhLU9q3nyRG/giphy.gif" width="600" style="border-radius: 8px;"/>
+  <img src="https://media.tenor.com/cw1gjPzrwBUAAAAC/cowboy-bebop-bang.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Qualquer pessoa que trabalhou com o ecossistema Angular na última década sabe que existe uma palavra que causa arrepios nas equipes de desenvolvimento: **Karma**. O ecossistema de testes clássico (baseado no Karma + Jasmine) sempre foi conhecido por ser denso, levantar instâncias pesadas de navegadores reais, e sofrer com tempos de execução amargos.
