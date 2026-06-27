@@ -706,3 +706,16 @@ Funcionalidade: Motor de Métricas do HUD
         | plugin     |
         | system     |
         | processes  |
+
+  # ══════════════════════════════════════════════════════════════════════
+  # REGRA 18 — Delegação de Cálculos para Web Worker (Zoneless Prep)
+  # ══════════════════════════════════════════════════════════════════════
+  Regra: ["FGH002_SP018"] Delegação de Cálculos Pesados (Web Worker)
+
+    @swimlane("MetricsEngine")
+    @id("FGH002_A084")
+    Cenário: Web Worker formata números pesados em background para desafogar a Main Thread
+      Dado que o MetricsService recebe o payload SSE
+      Quando os dados de processos e containers chegam
+      Então a formatação de bytes (formatBytes) e taxas (formatRate) deve ser delegada ao Worker
+      E o resultado deve ser devolvido pronto (ex: "_cpuStr", "_memStr") no signal

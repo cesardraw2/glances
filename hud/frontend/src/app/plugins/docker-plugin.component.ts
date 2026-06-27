@@ -103,7 +103,15 @@ export class DockerPluginComponent {
   readonly pinnedContainerId = signal<string | null>(null);
 
   readonly formattedContainers = computed(() => {
-    return this.containers() || [];
+    let conts = this.containers() || [];
+    const pinnedId = this.pinnedContainerId();
+    if (pinnedId && conts.length > 0) {
+      const idx = conts.findIndex((c: any) => (c.id || c.name) === pinnedId);
+      if (idx > 0) {
+        conts = [conts[idx], ...conts.slice(0, idx), ...conts.slice(idx + 1)];
+      }
+    }
+    return conts;
   });
 
   readonly extendedContainer = computed(() => {

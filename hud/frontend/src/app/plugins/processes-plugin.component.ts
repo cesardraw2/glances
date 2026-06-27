@@ -121,8 +121,15 @@ export class ProcessesPluginComponent {
   readonly extendedProcess = this.metricsService.extendedProcess;
 
   readonly formattedProcesses = computed(() => {
-    const procs = this.processes();
-    return procs || null;
+    let procs = this.processes() || [];
+    const pinnedId = this.extendedProcess()?.pid;
+    if (pinnedId && procs.length > 0) {
+      const idx = procs.findIndex((p: any) => p.pid === pinnedId);
+      if (idx > 0) {
+        procs = [procs[idx], ...procs.slice(0, idx), ...procs.slice(idx + 1)];
+      }
+    }
+    return procs;
   });
 
   @MeasureRender()

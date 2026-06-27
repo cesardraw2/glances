@@ -556,3 +556,38 @@ Funcionalidade: Componentes de Plugin do HUD
       Então deve exibir a contagem total de modelos no cabeçalho
       E deve apresentar uma tabela com os campos "Model", "Size" e "VRAM"
       E o tamanho deve ser formatado corretamente (ex: 4.7 GB)
+
+  # ══════════════════════════════════════════════════════════════════════
+  # REGRA 13 — Angular Zoneless & Alta Performance (Virtual Scroll)
+  # ══════════════════════════════════════════════════════════════════════
+  Regra: ["FGH003_SP013"] Motor de Alta Escala (Zoneless e Virtual Scroll)
+
+    @swimlane("HudFrontend")
+    @id("FGH003_A040")
+    Cenário: Renderização Zoneless em grandes volumes (Centenas de itens)
+      Dado que a aplicação está configurada com provideExperimentalZonelessChangeDetection
+      Quando o ciclo de atualização das listas (Processos/Containers) ocorre
+      Então o framework deve utilizar requestAnimationFrame para agendar o repaint
+      E o loop principal não deve ser bloqueado por setTimeout ou Zone.js
+
+    @swimlane("HudFrontend")
+    @id("FGH003_A041")
+    Cenário: CDK Virtual Scroll para renderização infinita
+      Dado que o sistema possui centenas de processos e contêineres ativos
+      Quando a lista é renderizada no DOM
+      Então um cdk-virtual-scroll-viewport deve envolver a lista
+      E apenas os nós HTML estritamente visíveis na tela devem ser alocados em memória
+
+  # ══════════════════════════════════════════════════════════════════════
+  # REGRA 14 — Pinned Panels (Detalhes Fixados)
+  # ══════════════════════════════════════════════════════════════════════
+  Regra: ["FGH003_SP014"] Painel de Detalhes (Pinned)
+
+    @swimlane("HudFrontend")
+    @id("FGH003_A042")
+    Cenário: Fixar (Pin) Processo ou Container na lista e ver detalhes expandidos
+      Dado que a lista de (Processos ou Contêineres) é exibida
+      Quando o usuário clica sobre uma das linhas
+      Então a linha deve ficar destacada (fundo verde e borda)
+      E um painel de detalhes (Pinned) deve aparecer sobre a lista com informações adicionais (I/O isolado, Comando completo)
+      E um botão "Unpin" deve remover o painel caso clicado
