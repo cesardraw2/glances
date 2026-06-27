@@ -76,7 +76,15 @@ Esta série documenta a construção do **Glances HUD**, onde reescrevemos a int
   - Arquitetura UI/UX de alta classe com a mecânica de "Pin" (fixação dinâmica de linha ao topo absoluto) para dashboards em tempo real.
 * **Na Prática:** Substituição bruta do elemento `<table>` pelo Flexbox acoplado ao Virtual Scroll, além do pulo dinâmico de Array no Signal quando ocorre um Pin de monitoramento de linha.
 
+### Artigo 10: Estratégias de Layout UI/UX: Flexbox, Tailwind e a Sabedoria do Virtual Scroll
+* **O Comparativo:** Layouts rígidos baseados na tag `<table>` e CSS legado **VERSUS** Estruturas modernas e responsivas baseadas em CSS Grid/Flexbox e TailwindCSS.
+* **Conteúdo:**
+  - A quebra de paradigmas visuais: O uso sutil de linhas divisórias (`divide-x`), paddings assimétricos e tipografia padronizada para diminuir a carga cognitiva do usuário em dashboards densos.
+  - Desconstruindo a `<table>`: Por que o HTML clássico de tabela é o grande inimigo do CDK Virtual Scroll e como redesenhamos linhas perfeitamente alinhadas usando `flex` e `w-48 shrink-0`.
+  - A Arquitetura da Escolha: A explicação filosófica e técnica de *quando* o Virtual Scroll deve ser aplicado (ex: Processos e Contêineres, dezenas a milhares de itens) versus quando o DOM nativo e Angular `@for` são suficientes (ex: discos e redes).
+* **Na Prática:** A jornada de refatoração do painel de Contêineres: saindo de um layout tabular quebrado para um ecossistema Flexbox fluido que habilita rolagem infinita.
+
 ---
 
 ## 🚀 Próximos Passos
-Temos um roteiro épico de 9 artigos! Se o escopo estiver 100% fechado, podemos dar a largada e escrever a copy final do **Artigo 1**.
+Temos um roteiro incrível e maduro de 10 artigos! Se o escopo estiver 100% fechado, podemos dar a largada e escrever a copy final do **Artigo 1**.
