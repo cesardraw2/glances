@@ -12,12 +12,12 @@ Bem-vindo ao mundo do **Cumulative Layout Shift (CLS)**, o maior inimigo de um d
 
 ---
 
-## 🏗️ Desconstruindo a \`<table>\`: O Inimigo Silencioso
+## 🏗️ Desconstruindo a `<table>`: O Inimigo Silencioso
 
 A interface original em Vue 3 usava a onipresente tag `<table>` para enfileirar processos, portas de rede e contêineres Docker. 
 Apesar de semântica, uma `<table>` em HTML tem um comportamento de layout terrível: ela empurra as larguras de suas próprias colunas a cada re-render baseada no conteúdo mais largo. Para um componente de Virtual Scroll rodando solto, usar tabelas vira um caos de pixels dançantes.
 
-A nossa estratégia? **Extirpar qualquer vestígio de `<table`> do projeto em favor de Flexbox cirúrgico com TailwindCSS.**
+A nossa estratégia? Extirpar qualquer vestígio da tag `<table>` do projeto em favor de Flexbox cirúrgico com TailwindCSS.
 - Usamos contêineres Flex e forçamos `w-48 shrink-0` ou `flex-1` para cimentar as colunas independentemente do conteúdo que passava dentro delas.
 - Substituímos grids inflexíveis por componentes que abraçam o conteúdo e definimos `min-h-[Xpx]` para reservar o "terreno" de cada bloco na tela antes mesmo dos dados chegarem do servidor (adeus, saltos no layout!).
 
@@ -38,7 +38,7 @@ Nós entramos no núcleo do `styles.css` e reescrevemos as fundações:
 
 ## 🏆 A Glória do Quadrado Mágico
 
-O resultado prático da união entre **Angular Signals (Zero CLS nas mutações de estado), TailwindCSS (Flexbox travado) e Cores de Alto Contraste** foi o placar perfeito no Lighthouse:
+O resultado prático da união entre Angular Signals (zero CLS nas mutações de estado), TailwindCSS (Flexbox travado) e Cores de Alto Contraste foi o placar perfeito no Lighthouse:
 ✅ Performance: 100
 ✅ Acessibilidade: 100
 ✅ Best Practices: 100
