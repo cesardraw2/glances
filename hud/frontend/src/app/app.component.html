@@ -1,87 +1,94 @@
 <div class="hud-container flex flex-col h-screen overflow-hidden text-[#cccccc] selection:bg-[#3e7b04] selection:text-white font-mono bg-black relative">
   
-  <!-- Linha 1: Cabeçalho de Uptime e SO -->
-  <header class="flex-none pb-1">
-    @for (item of topPlugins(); track item.name) {
-      <ng-container *ngComponentOutlet="item.component"></ng-container>
+  @if (metricsService.metrics() !== null) {
+    <!-- Linha 1: Cabeçalho de Uptime e SO -->
+    <header class="flex-none pb-1">
+      @for (item of topPlugins(); track item.name) {
+        <ng-container *ngComponentOutlet="item.component"></ng-container>
+      }
+    </header>
+
+    <!-- Linha 2: Painel Horizontal de Recursos do Topo (sem caixas ou bordas, plano) -->
+    @if (showTopMenu()) {
+      <div class="flex-none grid grid-cols-12 px-1 py-2 border-b border-[#111] items-stretch divide-x divide-[#111]">
+        <!-- Quicklook (bars) -->
+        @if (showQuickLook()) {
+          <div class="col-span-12 md:col-span-2 pr-4">
+            <ng-container *ngComponentOutlet="componentRegistry['quicklook']"></ng-container>
+          </div>
+        }
+        
+        <!-- CPU Text Details -->
+        <div [class]="cpuColClass() + ' px-4'">
+          <ng-container *ngComponentOutlet="componentRegistry['cpu']"></ng-container>
+        </div>
+
+        <!-- GPU Text Details -->
+        @if (showGpu() && hasGpu()) {
+          <div class="col-span-12 md:col-span-2 px-4">
+            <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
+          </div>
+        }
+
+        <!-- MEM / SWAP Text Details -->
+        <div [class]="memColClass() + ' px-4'">
+          <ng-container *ngComponentOutlet="componentRegistry['mem']"></ng-container>
+        </div>
+
+        <!-- Load average details -->
+        <div class="col-span-12 md:col-span-2 pl-4">
+          <ng-container *ngComponentOutlet="componentRegistry['load']"></ng-container>
+        </div>
+      </div>
     }
-  </header>
 
-  <!-- Linha 2: Painel Horizontal de Recursos do Topo (sem caixas ou bordas, plano) -->
-  @if (showTopMenu()) {
-    <div class="flex-none grid grid-cols-12 px-1 py-2 border-b border-[#111] items-stretch divide-x divide-[#111]">
-      <!-- Quicklook (bars) -->
-      @if (showQuickLook()) {
-        <div class="col-span-12 md:col-span-2 pr-4">
-          <ng-container *ngComponentOutlet="componentRegistry['quicklook']"></ng-container>
-        </div>
-      }
+    <!-- Linha 3: Linha de Alertas e Conectividade do Terminal -->
+    <div class="flex-none flex justify-between items-center text-[12px] px-1 py-2 text-[#aaa]">
+      <div class="flex items-center space-x-2">
+        <!-- Status SSE -->
+        <span class="inline-block w-2 h-2 rounded-full" 
+              [ngClass]="isConnected() ? 'bg-green-500 shadow-[0_0_6px_#3e7b04] animate-pulse' : 'bg-red-500 shadow-[0_0_6px_#a30000] animate-ping'">
+        </span>
+        <span class="font-bold" [ngClass]="!isConnected() ? 'text-red-500 font-bold' : (activeAlert() ? (activeAlert().level === 'CRITICAL' || activeAlert().level === 'critical' ? 'text-red-500 font-bold' : 'text-yellow-500 font-bold') : 'text-white')">
+          {{ !isConnected() ? 'DISCONNECTED FROM HOST' : (activeAlert() ? activeAlert().msg : 'No warning or critical alert detected') }}
+        </span>
+      </div>
+      <div class="text-[#444] text-[11px] hidden sm:block">
+        glances {{ version() || '4.5.6-real' }} with web-sse HUD
+      </div>
+    </div>
+
+    <!-- Linha 4: Grid Inferior de Duas Colunas (flat e denso) -->
+    <main class="flex-1 grid grid-cols-12 gap-4 p-1 overflow-hidden min-h-0">
       
-      <!-- CPU Text Details -->
-      <div [class]="cpuColClass() + ' px-4'">
-        <ng-container *ngComponentOutlet="componentRegistry['cpu']"></ng-container>
-      </div>
-
-      <!-- GPU Text Details -->
-      @if (showGpu() && hasGpu()) {
-        <div class="col-span-12 md:col-span-2 px-4">
-          <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
+      <!-- Coluna Lateral de Recursos compacta (Network, Discos, FS) -->
+      @if (showSidebar() && sidebarPlugins().length > 0) {
+        <div class="col-span-12 md:col-span-3 lg:col-span-3 overflow-y-auto space-y-4 max-h-full pr-1">
+          @for (item of sidebarPlugins(); track item.name) {
+            <div class="block">
+              <ng-container *ngComponentOutlet="item.component"></ng-container>
+            </div>
+          }
         </div>
       }
 
-      <!-- MEM / SWAP Text Details -->
-      <div [class]="memColClass() + ' px-4'">
-        <ng-container *ngComponentOutlet="componentRegistry['mem']"></ng-container>
-      </div>
-
-      <!-- Load average details -->
-      <div class="col-span-12 md:col-span-2 pl-4">
-        <ng-container *ngComponentOutlet="componentRegistry['load']"></ng-container>
-      </div>
-    </div>
-  }
-
-  <!-- Linha 3: Linha de Alertas e Conectividade do Terminal -->
-  <div class="flex-none flex justify-between items-center text-[12px] px-1 py-2 text-[#aaa]">
-    <div class="flex items-center space-x-2">
-      <!-- Status SSE -->
-      <span class="inline-block w-2 h-2 rounded-full" 
-            [ngClass]="isConnected() ? 'bg-green-500 shadow-[0_0_6px_#3e7b04] animate-pulse' : 'bg-red-500 shadow-[0_0_6px_#a30000] animate-ping'">
-      </span>
-      <span class="font-bold" [ngClass]="!isConnected() ? 'text-red-500 font-bold' : (activeAlert() ? (activeAlert().level === 'CRITICAL' || activeAlert().level === 'critical' ? 'text-red-500 font-bold' : 'text-yellow-500 font-bold') : 'text-white')">
-        {{ !isConnected() ? 'DISCONNECTED FROM HOST' : (activeAlert() ? activeAlert().msg : 'No warning or critical alert detected') }}
-      </span>
-    </div>
-    <div class="text-[#444] text-[11px] hidden sm:block">
-      glances {{ version() || '4.5.6-real' }} with web-sse HUD
-    </div>
-  </div>
-
-  <!-- Linha 4: Grid Inferior de Duas Colunas (flat e denso) -->
-  <main class="flex-1 grid grid-cols-12 gap-4 p-1 overflow-hidden min-h-0">
-    
-    <!-- Coluna Lateral de Recursos compacta (Network, Discos, FS) -->
-    @if (showSidebar() && sidebarPlugins().length > 0) {
-      <div class="col-span-12 md:col-span-3 lg:col-span-3 overflow-y-auto space-y-4 max-h-full pr-1">
-        @for (item of sidebarPlugins(); track item.name) {
+      <!-- Coluna Principal de Tarefas (Lista de Processos) -->
+      <div [ngClass]="(showSidebar() && sidebarPlugins().length > 0) ? 'col-span-12 md:col-span-9 lg:col-span-9 border-l border-[#111] pl-2' : 'col-span-12'" 
+           class="overflow-y-auto max-h-full pr-1 space-y-4">
+        @for (item of mainPlugins(); track item.name) {
           <div class="block">
             <ng-container *ngComponentOutlet="item.component"></ng-container>
           </div>
         }
       </div>
-    }
 
-    <!-- Coluna Principal de Tarefas (Lista de Processos) -->
-    <div [ngClass]="(showSidebar() && sidebarPlugins().length > 0) ? 'col-span-12 md:col-span-9 lg:col-span-9 border-l border-[#111] pl-2' : 'col-span-12'" 
-         class="overflow-y-auto max-h-full pr-1 space-y-4">
-      @for (item of mainPlugins(); track item.name) {
-        <div class="block">
-          <ng-container *ngComponentOutlet="item.component"></ng-container>
-        </div>
-      }
+    </main>
+  } @else {
+    <div class="flex-1 w-full h-full flex flex-col items-center justify-center text-[#444] animate-pulse space-y-4">
+      <div class="text-[20px] font-bold text-[#666]">ESTABLISHING SECURE CONNECTION...</div>
+      <div class="text-[12px]">[ AWAITING METRICS PAYLOAD FROM HOST ]</div>
     </div>
-
-  </main>
+  }
 
   <!-- Modal de Login Retro JWT -->
   @if (!isAuthenticated()) {
