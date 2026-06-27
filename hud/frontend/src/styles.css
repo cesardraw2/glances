@@ -6,11 +6,11 @@
   --color-crt-fg: #cccccc;
   
   /* Cores oficiais do Glances */
-  --color-glances-ok: #3e7b04;
-  --color-glances-careful: #295183;
-  --color-glances-warning: #5d4062;
-  --color-glances-critical: #a30000;
-  --color-glances-error: #ee6600;
+  --color-glances-ok: #4ade80;
+  --color-glances-careful: #60a5fa;
+  --color-glances-warning: #d8b4e2;
+  --color-glances-critical: #f87171;
+  --color-glances-error: #fb923c;
 }
 
 body {
@@ -68,22 +68,22 @@ body::before {
 /* Destaques de fundo (badges) oficiais do Glances TUI */
 .bg-ok {
   background-color: var(--color-glances-ok) !important;
-  color: #ffffff !important;
+  color: #000000 !important;
   padding: 0px 3px;
 }
 .bg-careful {
   background-color: var(--color-glances-careful) !important;
-  color: #ffffff !important;
+  color: #000000 !important;
   padding: 0px 3px;
 }
 .bg-warning {
   background-color: var(--color-glances-warning) !important;
-  color: #ffffff !important;
+  color: #000000 !important;
   padding: 0px 3px;
 }
 .bg-critical {
   background-color: var(--color-glances-critical) !important;
-  color: #ffffff !important;
+  color: #000000 !important;
   padding: 0px 3px;
   animation: crt-critical-pulse 0.8s infinite alternate;
 }

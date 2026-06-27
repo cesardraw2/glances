@@ -37,8 +37,8 @@ export class LoadPluginComponent {
   }
 
   getAlertClass(val: number): string {
-    if (val >= 0.9) return 'bg-critical font-bold text-white';
-    if (val >= 0.7) return 'bg-warning text-white';
-    return 'bg-ok text-white';
+    if (val >= 0.9) return 'bg-critical font-bold text-black';
+    if (val >= 0.7) return 'bg-warning text-black';
+    return 'bg-ok text-black';
   }
 }

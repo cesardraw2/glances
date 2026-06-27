@@ -21,7 +21,7 @@ import { MetricsService } from '../services/metrics.service';
               <span [class]="getAlertClass(s) + ' col-span-4 text-right font-bold'">
                 {{ s.value }}{{ s.unit }}
                 @if (s.type === 'battery') {
-                  <span class="text-[9px] text-[#666] block leading-none font-normal">{{ s.status }}</span>
+                  <span class="text-[9px] text-[#aaa] block leading-none font-normal">{{ s.status }}</span>
                 }
               </span>
             </div>

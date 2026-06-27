@@ -66,7 +66,7 @@ describe('MetricsService', () => {
       }
     } as any;
 
-    service = new MetricsService();
+    TestBed.runInInjectionContext(() => { service = new MetricsService(); });
   });
 
   afterEach(() => {

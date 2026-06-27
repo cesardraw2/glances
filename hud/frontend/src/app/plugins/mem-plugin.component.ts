@@ -26,7 +26,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">used:</span>
-              <span class="bg-careful text-white px-0.5 font-bold">{{ mem().used | formatBytes }}</span>
+              <span class="bg-careful text-black px-0.5 font-bold">{{ mem().used | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">free:</span>
@@ -66,7 +66,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">used:</span>
-              <span class="bg-ok text-white px-0.5 font-bold">{{ mem().swap_used | formatBytes }}</span>
+              <span class="bg-ok text-black px-0.5 font-bold">{{ mem().swap_used | formatBytes }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-[#888]">free:</span>

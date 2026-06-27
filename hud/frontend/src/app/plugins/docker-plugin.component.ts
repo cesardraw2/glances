@@ -82,10 +82,10 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
                 <div class="pr-2 py-0.5 text-right font-bold text-green-500 w-16 shrink-0">{{ c._cpuStr }}</div>
                 <div class="pr-2 py-0.5 text-right text-[#aaa] w-18 shrink-0">{{ c._memUsageStr }}</div>
                 <div class="pr-2 py-0.5 text-right text-[#aaa] w-18 shrink-0">{{ c._memLimitStr }}</div>
-                <div class="pr-2 py-0.5 text-right text-[#666] w-14 shrink-0">{{ c._iorStr }}</div>
-                <div class="pr-2 py-0.5 text-right text-[#666] w-14 shrink-0">{{ c._iowStr }}</div>
-                <div class="pr-2 py-0.5 text-right text-[#666] w-14 shrink-0">{{ c._rxStr }}</div>
-                <div class="pr-2 py-0.5 text-right text-[#666] w-14 shrink-0">{{ c._txStr }}</div>
+                <div class="pr-2 py-0.5 text-right text-[#aaa] w-14 shrink-0">{{ c._iorStr }}</div>
+                <div class="pr-2 py-0.5 text-right text-[#aaa] w-14 shrink-0">{{ c._iowStr }}</div>
+                <div class="pr-2 py-0.5 text-right text-[#aaa] w-14 shrink-0">{{ c._rxStr }}</div>
+                <div class="pr-2 py-0.5 text-right text-[#aaa] w-14 shrink-0">{{ c._txStr }}</div>
                 <div class="pr-2 py-0.5 text-[#aaa] truncate w-32 shrink-0" [title]="c.ports">{{ c.ports || '-' }}</div>
                 <div class="pl-2 py-0.5 text-[#aaa] truncate grow" [title]="c._cmdStr">{{ c._cmdStr }}</div>
               </div>
@@ -95,7 +95,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
       }
     } @else {
       <app-plugin-card>
-        <div class="w-full h-[350px] flex items-center justify-center text-[#444] animate-pulse">
+        <div class="w-full h-[350px] flex items-center justify-center text-[#888] animate-pulse">
           [ INITIALIZING DOCKER MODULE ]
         </div>
       </app-plugin-card>

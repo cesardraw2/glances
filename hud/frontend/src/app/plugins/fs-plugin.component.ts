@@ -23,7 +23,7 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
             <div class="grid grid-cols-12 gap-x-2 items-start">
               <div class="flex flex-col col-span-6 min-w-0">
                 <span class="text-white font-bold truncate" [title]="item.mount">{{ item.mount }}</span>
-                <span class="text-[#666] text-[10px] truncate" [title]="item.device">{{ item.device }}</span>
+                <span class="text-[#aaa] text-[10px] truncate" [title]="item.device">{{ item.device }}</span>
               </div>
               <span [class]="(item.percent | alertClass) + ' col-span-3 text-right font-bold'">
                 {{ item.used | formatBytes }}
