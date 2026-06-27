@@ -410,7 +410,7 @@ show-version: ## Show Glances version number
 
 hud-install: ## Install HUD dependencies (Frontend & Backend)
 	cd hud/frontend && pnpm install
-	cd hud/backend && poetry install
+	cd hud/backend && pip install -r requirements.txt
 
 hud-dev: ## Run HUD in development mode
 	@echo "Starting HUD Frontend and Backend..."
@@ -420,10 +420,16 @@ hud-dev-frontend:
 	cd hud/frontend && pnpm run dev
 
 hud-dev-backend:
-	cd hud/backend && poetry run uvicorn main:app --reload --port 8000
+	cd hud/backend && uvicorn app:app --reload --port 8000
 
 hud-test: ## Run HUD unit tests
 	cd hud/frontend && pnpm exec vitest run
 
 hud-build: ## Build HUD Angular frontend for production
 	cd hud/frontend && pnpm run build
+
+hud-docker-build: ## Build HUD Docker image
+	cd hud && docker build -t glances-hud:latest .
+
+hud-docker-run: ## Run HUD Docker container
+	docker run -p 8000:8000 --rm --name glances-hud glances-hud:latest

@@ -264,7 +264,7 @@ export class MetricsService {
 
   private getBaseUrl(): string {
     if (window.location.port === '4200') {
-      return 'http://localhost:61208';
+      return 'http://localhost:8000';
     }
     return window.location.origin;
   }

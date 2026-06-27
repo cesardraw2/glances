@@ -7,6 +7,8 @@ import platform
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI(title="Glances Mock API with SSE Support")
 
@@ -370,6 +372,13 @@ async def get_metrics_sse(refresh: float = 1.0):
     Endpoint SSE de streaming em tempo real das métricas do Glances
     """
     return StreamingResponse(sse_generator(refresh), media_type="text/event-stream")
+
+# Servindo os arquivos estáticos do Angular na raiz se a pasta existir
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+else:
+    print("Aviso: Diretório 'static' não encontrado. Rodando em modo apenas API.")
 
 if __name__ == "__main__":
     import uvicorn
