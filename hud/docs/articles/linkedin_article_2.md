@@ -82,7 +82,7 @@ Como está o `package.json` do seu projeto atual? Ele parece uma lista telefôni
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [app.component.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/app.component.ts)
+- [app.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/app.component.ts)
 
 
 > *"See You Space Cowboy..."* 🚀

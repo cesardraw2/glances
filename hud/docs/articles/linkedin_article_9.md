@@ -61,8 +61,8 @@ Alguém aqui já teve que resgatar a performance de listas gigantescas? Como voc
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [metrics.worker.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/services/metrics.worker.ts)
-- [processes-plugin.component.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/plugins/processes-plugin.component.ts)
+- [metrics.worker.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/services/metrics.worker.ts)
+- [processes-plugin.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/plugins/processes-plugin.component.ts)
 
 
 > *"See You Space Cowboy..."* 🚀

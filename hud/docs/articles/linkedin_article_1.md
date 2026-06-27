@@ -77,8 +77,8 @@ E você? Já experimentou rodar suas aplicações Angular sem o `zone.js`? Deixa
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [app.config.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/app.config.ts)
-- [app.component.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/app.component.ts)
+- [app.config.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/app.config.ts)
+- [app.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/app.component.ts)
 
 
 > *"See You Space Cowboy..."* 🚀

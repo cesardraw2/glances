@@ -68,8 +68,8 @@ Como a sua equipe lida com formatação pesada no frontend? Pipes nativos? Web W
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/plugins/docker-plugin.component.ts)
-- [format-bytes.pipe.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/core/pipes/format-bytes.pipe.ts)
+- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/plugins/docker-plugin.component.ts)
+- [format-bytes.pipe.ts](https://github.com/cesardraw2/glances/blob/develop/hud/frontend/src/app/core/pipes/format-bytes.pipe.ts)
 
 
 > *"See You Space Cowboy..."* 🚀
