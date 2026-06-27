@@ -13,7 +13,8 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (formattedProcesses(); as procs) {
-      <app-plugin-card>
+      @if (processes() !== null) {
+        <app-plugin-card>
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
           TASKS {{ processcount()?.total || procs.length }} ({{ processcount()?.thread || 0 }} thr), {{ processcount()?.running || 0 }} run, {{ processcount()?.sleeping || 0 }} slp sorted by {{ sortKey() }}, flat view
@@ -107,7 +108,14 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
             </div>
           </cdk-virtual-scroll-viewport>
         </div>
-      </app-plugin-card>
+        </app-plugin-card>
+      } @else {
+        <app-plugin-card>
+          <div class="w-full h-[450px] flex items-center justify-center text-[#444] animate-pulse">
+            [ INITIALIZING PROCESSES MODULE ]
+          </div>
+        </app-plugin-card>
+      }
     }
   `
 })

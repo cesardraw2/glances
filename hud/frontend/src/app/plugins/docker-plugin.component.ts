@@ -12,8 +12,9 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (formattedContainers(); as conts) {
-      @if (conts.length > 0) {
-        <app-plugin-card>
+      @if (containers() !== null) {
+        @if (conts.length > 0) {
+          <app-plugin-card>
           <!-- Containers header -->
           <div class="text-white font-bold mb-2">
             CONTAINERS {{ conts.length }} sorted by {{ sortKey() === 'cpu_percent' ? 'CPU consumption' : (sortKey() === 'memory_usage' ? 'Memory consumption' : 'Name') }}
@@ -93,6 +94,12 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
           </div>
         </app-plugin-card>
       }
+    } @else {
+      <app-plugin-card>
+        <div class="w-full h-[350px] flex items-center justify-center text-[#444] animate-pulse">
+          [ INITIALIZING DOCKER MODULE ]
+        </div>
+      </app-plugin-card>
     }
   `
 })
