@@ -1,5 +1,7 @@
 # 🚀 Angular 22 vs Vue 3: Reescrevendo a UI do Glances HUD do zero (Parte 5)
 
+> *"Life is but a dream..."*
+
 Até agora, discutimos como preparamos a fundação do Angular 22 (Zoneless, Signals e Control Flow) para receber uma avalanche de dados sem piscar. Mas a pergunta de ouro de qualquer painel de telemetria é: **Como esses dados chegam do servidor até o navegador?**
 
 Hoje, vamos mergulhar na arquitetura de rede. Vamos comparar o clássico "Short Polling" do Vue 3 original com a nossa abordagem em tempo real baseada em Server-Sent Events (SSE).

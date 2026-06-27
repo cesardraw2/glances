@@ -1,5 +1,7 @@
 # 🚀 Angular 22 vs Vue 3: Reescrevendo a UI do Glances HUD do zero (Parte 3)
 
+> *"Do you have a comrade?"*
+
 Se você já construiu um painel de monitoramento que pisca e atualiza milhares de dados a cada segundo, sabe que o coração do projeto não é o CSS ou os componentes visuais, mas sim o motor de **Reatividade**. 
 
 Na Parte 2 desta série, vimos como eliminamos bibliotecas inúteis focando no "Zero-Dependency Mindset". Hoje, vamos colocar o motor V8 para trabalhar e comparar como a UI original do Glances lida com estado global versus a nossa reconstrução no Angular 22.
