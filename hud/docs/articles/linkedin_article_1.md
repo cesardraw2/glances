@@ -38,7 +38,7 @@ bootstrapApplication(AppComponent, {
 
 Mas o verdadeiro "Pulo do Gato" da versão 22 foi a decisão arquitetônica de **remover o Zone.js**. 
 
-Historicamente, o Angular dependia do `zone.js` para fazer o "monkey-patching" do navegador (interceptar cliques, setTimeouts, XHR) e disparar a renderização da tela. Ao injetar a diretriz `provideExperimentalZonelessChangeDetection()`, cortamos dezenas de kilobytes do bundle final e acabamos com os ciclos de renderização desnecessários. 
+Historicamente, o Angular dependia do `zone.js` para fazer o "monkey-patching" do navegador (interceptar cliques, setTimeouts, XHR) e disparar a renderização da tela. Ao injetar a diretriz `provideZonelessChangeDetection()`, cortamos dezenas de kilobytes do bundle final e acabamos com os ciclos de renderização desnecessários. 
 
 O Angular agora só repinta a tela quando nós dizemos a ele que algo mudou. E como dizemos isso? Usando a detecção `OnPush` acoplada ao novo e brilhante ecossistema de **Signals**.
 
