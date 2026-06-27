@@ -63,3 +63,6 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 
 - [metrics.service.spec.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.spec.ts)
 - [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)
+
+
+> *"See You Space Cowboy..."* 🚬🚀

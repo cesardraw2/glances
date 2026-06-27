@@ -1,6 +1,6 @@
 # 🚀 Angular 22 vs Vue 3: Reescrevendo a UI do Glances HUD do zero (Parte 1)
 
-> *"See You Space Cowboy..."*
+> *"Asteroid Blues"*
 
 Quem acompanha o mundo de monitoramento open-source com certeza conhece o **Glances**. Ele é, de longe, uma das ferramentas de telemetria mais populares construídas em Python. Mas você já abriu o código-fonte da interface web (HUD) que vem embutida nele?
 
@@ -67,3 +67,6 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 
 - [app.config.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.config.ts)
 - [app.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.component.ts)
+
+
+> *"See You Space Cowboy..."* 🚬🚀

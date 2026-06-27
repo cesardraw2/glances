@@ -55,3 +55,6 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 
 - [styles.css](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/styles.css)
 - [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)
+
+
+> *"See You Space Cowboy..."* 🚬🚀

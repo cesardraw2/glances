@@ -78,3 +78,6 @@ Na sua empresa, vocês ainda usam "Short Polling" (setInterval/setTimeout) para 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
 - [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)
+
+
+> *"See You Space Cowboy..."* 🚬🚀

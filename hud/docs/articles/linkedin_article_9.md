@@ -50,3 +50,6 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 
 - [metrics.worker.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.worker.ts)
 - [processes-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/processes-plugin.component.ts)
+
+
+> *"See You Space Cowboy..."* 🚬🚀
