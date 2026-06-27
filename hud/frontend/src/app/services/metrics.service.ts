@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, inject, DestroyRef } from '@angular/core';
+import { Injectable, signal, computed, inject, DestroyRef, effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -173,20 +173,7 @@ export class MetricsService {
   readonly processcount = computed(() => this.metrics()?.processcount);
   readonly containers = computed(() => {
     const list = this.metrics()?.containers;
-    if (!list || !Array.isArray(list)) return [];
-    
-    const key = this.containerSortKey();
-    const sorted = [...list];
-    
-    if (key === 'cpu_percent') {
-      sorted.sort((a, b) => (b.cpu_percent || 0) - (a.cpu_percent || 0));
-    } else if (key === 'memory_usage') {
-      const getMem = (item: any) => item.memory_usage || (item.memory && item.memory.usage) || 0;
-      sorted.sort((a, b) => getMem(b) - getMem(a));
-    } else if (key === 'name') {
-      sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-    }
-    return sorted;
+    return (list && Array.isArray(list)) ? list : [];
   });
   readonly gpu = computed(() => this.metrics()?.gpu);
   readonly sensors = computed(() => this.metrics()?.sensors);
@@ -201,44 +188,7 @@ export class MetricsService {
   });
 
   readonly processes = computed(() => {
-    const list = this.rawProcesses();
-    if (!list) return null;
-
-    const key = this.processSortKey();
-    const sorted = [...list];
-
-    if (key === 'cpu_percent' || key === 'mem_percent') {
-      const getVal = (item: any, k: string) => {
-        if (k === 'mem_percent') {
-          return item.mem_percent !== undefined ? item.mem_percent : (item.memory_percent !== undefined ? item.memory_percent : 0);
-        }
-        return item[k] !== undefined ? item[k] : 0;
-      };
-      sorted.sort((a, b) => getVal(b, key) - getVal(a, key));
-    } else if (key === 'time') {
-      const getVal = (item: any) => {
-        if (item.cpu_times) {
-          return (item.cpu_times.user ?? 0) + (item.cpu_times.system ?? 0);
-        }
-        return 0;
-      };
-      sorted.sort((a, b) => getVal(b) - getVal(a));
-    } else if (key === 'io') {
-      const getVal = (item: any) => {
-        if (item.io_counters && item.io_counters.length >= 4) {
-          return (item.io_counters[2] ?? 0) + (item.io_counters[3] ?? 0);
-        }
-        return 0;
-      };
-      sorted.sort((a, b) => getVal(b) - getVal(a));
-    } else if (key === 'name' || key === 'username') {
-      sorted.sort((a, b) => {
-        const valA = (a[key] || '').toLowerCase();
-        const valB = (b[key] || '').toLowerCase();
-        return valA.localeCompare(valB);
-      });
-    }
-    return sorted;
+    return this.rawProcesses();
   });
 
   readonly extendedProcess = computed(() => {
@@ -280,13 +230,41 @@ export class MetricsService {
     }
   }
 
+  private worker: Worker | null = null;
+
   constructor() {
+    this.initWorker();
     this.checkAuthenticationAndConnect();
+
+    // Sincronizar as chaves de ordenação com o Worker
+    effect(() => {
+      if (this.worker) {
+        this.worker.postMessage({
+          type: 'SET_KEYS',
+          processSortKey: this.processSortKey(),
+          containerSortKey: this.containerSortKey()
+        });
+      }
+    });
+  }
+
+  private initWorker() {
+    if (typeof Worker !== 'undefined') {
+      this.worker = new Worker(new URL('./metrics.worker.ts', import.meta.url), { type: 'module' });
+      this.worker.onmessage = ({ data }) => {
+        if (data.type === 'METRICS_UPDATED') {
+          this.metrics.set(data.payload);
+        }
+      };
+      this.destroyRef.onDestroy(() => {
+        this.worker?.terminate();
+      });
+    }
   }
 
   private getBaseUrl(): string {
     if (window.location.port === '4200') {
-      return 'http://localhost:8000';
+      return 'http://localhost:61208';
     }
     return window.location.origin;
   }
@@ -294,7 +272,7 @@ export class MetricsService {
   // Determina a versão da API dinâmica (se for Mock ou Real)
   private getApiVersionPath(): string {
     if (window.location.port === '4200') {
-      return 'api'; // Mock usa /api/config e /api/metrics/sse
+      return 'api/4'; // Força usar o Glances real em dev
     }
     return 'api/4'; // Glances real usa /api/4/...
   }
@@ -377,11 +355,17 @@ export class MetricsService {
     };
 
     eventSource.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        this.metrics.set(data);
-      } catch (e) {
-        console.error('Erro ao ler mensagens SSE:', e);
+      if (this.worker) {
+        // Envia para o Worker fazer o parse e sort pesados
+        this.worker.postMessage({ type: 'PARSE_SSE', payload: event.data });
+      } else {
+        // Fallback se Web Workers não forem suportados
+        try {
+          const data = JSON.parse(event.data);
+          this.metrics.set(data);
+        } catch (e) {
+          console.error('Erro ao ler mensagens SSE (fallback):', e);
+        }
       }
     };
 

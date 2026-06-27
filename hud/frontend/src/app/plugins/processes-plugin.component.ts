@@ -1,14 +1,19 @@
-import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MetricsService } from '../services/metrics.service';
+import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
+import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
+import { MeasureRender } from '../core/decorators/aop.decorators';
 
 @Component({
+  selector: 'app-processes-plugin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PluginCardComponent, FormatBytesPipe, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (processes(); as procs) {
-      <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
+    @if (formattedProcesses(); as procs) {
+      <app-plugin-card>
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
           TASKS {{ processcount()?.total || procs.length }} ({{ processcount()?.thread || 0 }} thr), {{ processcount()?.running || 0 }} run, {{ processcount()?.sleeping || 0 }} slp sorted by {{ sortKey() }}, flat view
@@ -61,86 +66,78 @@ import { MetricsService } from '../services/metrics.service';
           </div>
         }
         
-        <!-- Table -->
-        <div class="w-full overflow-x-auto font-mono">
-          <table class="w-full text-left font-mono">
-            <thead>
-              <tr class="text-[#888] border-b border-[#111]">
-                <th (click)="changeSort('cpu_percent')" class="pr-2 py-0.5 align-middle text-right w-12 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  CPU%{{ sortKey() === 'cpu_percent' ? '▼' : '' }}
-                </th>
-                <th (click)="changeSort('mem_percent')" class="pr-2 py-0.5 align-middle text-right w-12 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  MEM%{{ sortKey() === 'mem_percent' ? '▼' : '' }}
-                </th>
-                <th class="pr-2 py-0.5 align-middle text-right w-16 font-bold">VIRT</th>
-                <th class="pr-2 py-0.5 align-middle text-right w-16 font-bold">RES</th>
-                <th class="pr-2 py-0.5 align-middle text-right w-14 font-bold">PID</th>
-                <th (click)="changeSort('username')" class="pr-2 py-0.5 align-middle w-16 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  USER{{ sortKey() === 'username' ? '▼' : '' }}
-                </th>
-                <th (click)="changeSort('time')" class="pr-2 py-0.5 align-middle text-right w-20 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  TIME+{{ sortKey() === 'time' ? '▼' : '' }}
-                </th>
-                <th class="pr-2 py-0.5 align-middle text-right w-10 font-bold">THR</th>
-                <th class="pr-2 py-0.5 align-middle text-right w-8 font-bold">NI</th>
-                <th class="pr-2 py-0.5 align-middle text-center w-6 font-bold">S</th>
-                <th (click)="changeSort('io')" class="pr-2 py-0.5 align-middle text-right w-12 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  IOR/s{{ sortKey() === 'io' ? '▼' : '' }}
-                </th>
-                <th (click)="changeSort('io')" class="pr-2 py-0.5 align-middle text-right w-12 font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  IOW/s{{ sortKey() === 'io' ? '▼' : '' }}
-                </th>
-                <th (click)="changeSort('name')" class="pl-2 py-0.5 align-middle font-bold cursor-pointer select-none hover:text-white transition-colors">
-                  Command (click to pin){{ sortKey() === 'name' ? '▼' : '' }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (proc of procs; track proc.pid) {
-                <tr (click)="pin(proc.pid)" 
-                    [ngClass]="extendedProcess()?.pid === proc.pid ? 'bg-[#002f00] text-green-300 font-bold border-y border-green-600' : 'even:bg-[#111] hover:bg-[#222]'"
-                    class="cursor-pointer transition-colors duration-150">
-                  <td class="pr-2 py-0.5 align-middle text-right font-bold" [class]="cpuClass(proc.cpu_percent)">
-                    {{ proc.cpu_percent.toFixed(1) }}
-                  </td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-green-500">
-                    {{ (proc.mem_percent !== undefined ? proc.mem_percent : (proc.memory_percent !== undefined ? proc.memory_percent : 0)).toFixed(1) }}
-                  </td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ getVirt(proc) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ getRes(proc) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-white">{{ proc.pid }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-[#aaa] truncate max-w-[70px]">{{ proc.username }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ formatProcessTime(proc.cpu_times) }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc.num_threads !== undefined ? proc.num_threads : 0 }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#aaa]">{{ proc.nice !== undefined ? proc.nice : 0 }}</td>
-                  <td class="pr-2 py-0.5 align-middle text-center" [class]="isProcessRunning(proc) ? 'text-green-500 font-bold' : 'text-[#666]'">
-                    {{ getProcessStatus(proc) }}
-                  </td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">0</td>
-                  <td class="pr-2 py-0.5 align-middle text-right text-[#666]">0</td>
-                  <td class="pl-2 py-0.5 align-middle text-white font-bold truncate max-w-[150px] md:max-w-[300px]">
-                    {{ proc.name }}
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
+        <!-- Virtual Scroll Layout -->
+        <div class="w-full overflow-x-auto font-mono min-w-[800px]">
+          <!-- Header -->
+          <div class="flex w-full text-[#888] border-b border-[#111]">
+            <div (click)="changeSort('cpu_percent')" class="pr-2 py-0.5 text-right w-12 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">CPU%{{ sortKey() === 'cpu_percent' ? '▼' : '' }}</div>
+            <div (click)="changeSort('mem_percent')" class="pr-2 py-0.5 text-right w-12 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">MEM%{{ sortKey() === 'mem_percent' ? '▼' : '' }}</div>
+            <div class="pr-2 py-0.5 text-right w-16 shrink-0 font-bold">VIRT</div>
+            <div class="pr-2 py-0.5 text-right w-16 shrink-0 font-bold">RES</div>
+            <div class="pr-2 py-0.5 text-right w-14 shrink-0 font-bold">PID</div>
+            <div (click)="changeSort('username')" class="pr-2 py-0.5 w-16 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">USER{{ sortKey() === 'username' ? '▼' : '' }}</div>
+            <div (click)="changeSort('time')" class="pr-2 py-0.5 text-right w-20 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">TIME+{{ sortKey() === 'time' ? '▼' : '' }}</div>
+            <div class="pr-2 py-0.5 text-right w-10 shrink-0 font-bold">THR</div>
+            <div class="pr-2 py-0.5 text-right w-8 shrink-0 font-bold">NI</div>
+            <div class="pr-2 py-0.5 text-center w-6 shrink-0 font-bold">S</div>
+            <div (click)="changeSort('io')" class="pr-2 py-0.5 text-right w-12 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">IOR/s{{ sortKey() === 'io' ? '▼' : '' }}</div>
+            <div (click)="changeSort('io')" class="pr-2 py-0.5 text-right w-12 shrink-0 font-bold cursor-pointer select-none hover:text-white transition-colors">IOW/s{{ sortKey() === 'io' ? '▼' : '' }}</div>
+            <div (click)="changeSort('name')" class="pl-2 py-0.5 font-bold grow cursor-pointer select-none hover:text-white transition-colors">Command (click to pin){{ sortKey() === 'name' ? '▼' : '' }}</div>
+          </div>
+          
+          <!-- Virtual Scroll Body -->
+          <cdk-virtual-scroll-viewport itemSize="24" class="w-full h-[400px] overflow-x-hidden">
+            <div *cdkVirtualFor="let proc of procs; trackBy: trackByPid"
+                 (click)="pin(proc.pid)" 
+                 [ngClass]="extendedProcess()?.pid === proc.pid ? 'bg-[#002f00] text-green-300 font-bold border-y border-green-600' : 'even:bg-[#111] hover:bg-[#222]'"
+                 class="flex w-full cursor-pointer transition-colors duration-150">
+              <div class="pr-2 py-0.5 text-right font-bold w-12 shrink-0" [class]="proc._cpuClass">{{ proc._cpuStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-green-500 w-12 shrink-0">{{ proc._memStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#aaa] w-16 shrink-0">{{ proc._virtStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#aaa] w-16 shrink-0">{{ proc._resStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-white w-14 shrink-0">{{ proc.pid }}</div>
+              <div class="pr-2 py-0.5 text-[#aaa] truncate w-16 shrink-0">{{ proc.username }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#aaa] w-20 shrink-0">{{ proc._timeStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#aaa] w-10 shrink-0">{{ proc.num_threads !== undefined ? proc.num_threads : 0 }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#aaa] w-8 shrink-0">{{ proc.nice !== undefined ? proc.nice : 0 }}</div>
+              <div class="pr-2 py-0.5 text-center w-6 shrink-0" [class]="proc._isRunning ? 'text-green-500 font-bold' : 'text-[#666]'">{{ proc._statusStr }}</div>
+              <div class="pr-2 py-0.5 text-right text-[#666] w-12 shrink-0">0</div>
+              <div class="pr-2 py-0.5 text-right text-[#666] w-12 shrink-0">0</div>
+              <div class="pl-2 py-0.5 text-white font-bold truncate grow">{{ proc.name }}</div>
+            </div>
+          </cdk-virtual-scroll-viewport>
         </div>
-      </div>
+      </app-plugin-card>
     }
   `
 })
 export class ProcessesPluginComponent {
   private metricsService = inject(MetricsService);
+  private bytesPipe = new FormatBytesPipe(); // used internally by getVirt/getRes
+
   readonly processes = this.metricsService.processes;
   readonly processcount = this.metricsService.processcount;
   readonly sortKey = this.metricsService.processSortKey;
   readonly extendedProcess = this.metricsService.extendedProcess;
 
+  readonly formattedProcesses = computed(() => {
+    let procs = this.processes() || [];
+    const pinnedId = this.extendedProcess()?.pid;
+    if (pinnedId && procs.length > 0) {
+      const idx = procs.findIndex((p: any) => p.pid === pinnedId);
+      if (idx > 0) {
+        procs = [procs[idx], ...procs.slice(0, idx), ...procs.slice(idx + 1)];
+      }
+    }
+    return procs;
+  });
+
+  @MeasureRender()
   changeSort(key: string) {
     this.metricsService.processSortKey.set(key);
   }
 
+  @MeasureRender()
   pin(pid: number) {
     if (this.extendedProcess()?.pid === pid) {
       this.unpin();
@@ -149,8 +146,13 @@ export class ProcessesPluginComponent {
     }
   }
 
+  @MeasureRender()
   unpin() {
     this.metricsService.unpinProcess();
+  }
+
+  trackByPid(index: number, item: any): number {
+    return item.pid;
   }
 
   cpuClass(cpu: number): string {
@@ -159,25 +161,16 @@ export class ProcessesPluginComponent {
     return 'ok';
   }
 
-  formatBytes(bytes: number): string {
-    if (!bytes || bytes === 0) return '0B';
-    const k = 1024;
-    const sizes = ['B', 'K', 'M', 'G', 'T'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const val = parseFloat((bytes / Math.pow(k, i)).toFixed(1));
-    return `${val}${sizes[i]}`;
-  }
-
   getVirt(proc: any): string {
     if (proc.memory_info?.vms !== undefined) {
-      return this.formatBytes(proc.memory_info.vms);
+      return this.bytesPipe.transform(proc.memory_info.vms);
     }
     return this.getMockVirt(proc.name);
   }
 
   getRes(proc: any): string {
     if (proc.memory_info?.rss !== undefined) {
-      return this.formatBytes(proc.memory_info.rss);
+      return this.bytesPipe.transform(proc.memory_info.rss);
     }
     return this.getMockRes(proc.name);
   }

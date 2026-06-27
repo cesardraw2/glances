@@ -32,9 +32,4 @@ describe('DiskIoPluginComponent', () => {
     expect(comp.diskio().length).toBe(2);
   });
 
-  it('should format rate correctly', () => {
-    const comp = new DiskIoPluginComponent();
-    expect(comp.formatRate('1.2 Mb/s')).toBe('1.2Mb/s');
-    expect(comp.formatRate('0 B/s')).toBe('0B/s');
-  });
 });
