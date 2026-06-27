@@ -12,8 +12,8 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   imports: [CommonModule, PluginCardComponent, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (formattedProcesses(); as procs) {
-      @if (processes() !== null) {
+    @if (processes() !== null) {
+      @if (formattedProcesses(); as procs) {
         <app-plugin-card>
         <!-- Tasks header -->
         <div class="text-white font-bold mb-2">
@@ -109,13 +109,13 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
           </cdk-virtual-scroll-viewport>
         </div>
         </app-plugin-card>
-      } @else {
-        <app-plugin-card>
-          <div class="w-full h-[450px] flex items-center justify-center text-[#444] animate-pulse">
-            [ INITIALIZING PROCESSES MODULE ]
-          </div>
-        </app-plugin-card>
       }
+    } @else {
+      <app-plugin-card>
+        <div class="w-full h-[450px] flex items-center justify-center text-[#444] animate-pulse">
+          [ INITIALIZING PROCESSES MODULE ]
+        </div>
+      </app-plugin-card>
     }
   `
 })

@@ -11,8 +11,8 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   imports: [CommonModule, PluginCardComponent, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (formattedContainers(); as conts) {
-      @if (containers() !== null) {
+    @if (containers() !== null) {
+      @if (formattedContainers(); as conts) {
         @if (conts.length > 0) {
           <app-plugin-card>
           <!-- Containers header -->
@@ -92,7 +92,8 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
               </div>
             </cdk-virtual-scroll-viewport>
           </div>
-        </app-plugin-card>
+          </app-plugin-card>
+        }
       }
     } @else {
       <app-plugin-card>
@@ -101,7 +102,6 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
         </div>
       </app-plugin-card>
     }
-  }
   `
 })
 export class DockerPluginComponent {
