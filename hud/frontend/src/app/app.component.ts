@@ -25,6 +25,7 @@ import { OllamaPluginComponent } from './plugins/ollama-plugin.component';
 export class AppComponent {
   private metricsService = inject(MetricsService);
   readonly isConnected = this.metricsService.isConnected;
+  readonly hasMetrics = computed(() => this.metricsService.metrics() !== null);
   readonly activePlugins = this.metricsService.plugins;
   readonly isAuthenticated = this.metricsService.isAuthenticated;
   readonly loginError = this.metricsService.loginError;

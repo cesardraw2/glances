@@ -1,6 +1,6 @@
 <div class="hud-container flex flex-col h-screen overflow-hidden text-[#cccccc] selection:bg-[#3e7b04] selection:text-white font-mono bg-black relative">
   
-  @if (metricsService.metrics() !== null) {
+  @if (hasMetrics()) {
     <!-- Linha 1: Cabeçalho de Uptime e SO -->
     <header class="flex-none pb-1">
       @for (item of topPlugins(); track item.name) {
