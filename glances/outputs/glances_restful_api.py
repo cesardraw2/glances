@@ -322,6 +322,16 @@ class GlancesRestfulApi:
             self._app.add_middleware(TrustedHostMiddleware, allowed_hosts=self.webui_allowed_hosts)
             logger.info(f"TrustedHostMiddleware enabled (allowed hosts: {self.webui_allowed_hosts})")
 
+        # Middleware to cache static assets
+        @self._app.middleware("http")
+        async def add_cache_headers(request: Request, call_next):
+            response = await call_next(request)
+            if request.url.path.startswith(self.url_prefix + '/hud/') or request.url.path.startswith(self.url_prefix + '/static/'):
+                if request.url.path.endswith('.js') or request.url.path.endswith('.css') or request.url.path.endswith('.woff2'):
+                    response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+            return response
+
+
         # FastAPI Define routes
         # Status endpoint router (no authentication required) - health check
         self._app.include_router(self._status_router())
