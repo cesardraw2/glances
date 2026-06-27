@@ -24,9 +24,11 @@
         </div>
 
         <!-- GPU Text Details -->
-        @if (showGpu() && hasGpu()) {
+        @if (showGpu()) {
           <div class="col-span-12 md:col-span-2 px-4">
-            <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
+            @if (hasGpu()) {
+              <ng-container *ngComponentOutlet="componentRegistry['gpu']"></ng-container>
+            }
           </div>
         }
 
