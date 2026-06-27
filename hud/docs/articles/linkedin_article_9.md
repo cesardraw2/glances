@@ -3,7 +3,7 @@
 > *"Whatever happens, happens."*
 
 <div align="center">
-  <img src="../imgs/spike_noodles.gif" width="600" style="border-radius: 8px;"/>
+  <img src="./imgs/spike_noodles.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Chegamos àquele momento crítico que separa uma dashboard comum de um produto de altíssima engenharia. Se você já monitorou um servidor em sobrecarga com centenas de processos e dezenas de contêineres Docker, sabe que renderizar tudo isso na tela pode ser o golpe de misericórdia no navegador do usuário.

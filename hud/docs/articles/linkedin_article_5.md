@@ -3,7 +3,7 @@
 > *"Life is but a dream..."*
 
 <div align="center">
-  <img src="../imgs/faye_cockpit.gif" width="600" style="border-radius: 8px;"/>
+  <img src="./imgs/faye_cockpit.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Até agora, discutimos como preparamos a fundação do Angular 22 (Zoneless, Signals e Control Flow) para receber uma avalanche de dados sem piscar. Mas a pergunta de ouro de qualquer painel de telemetria é: **Como esses dados chegam do servidor até o navegador?**

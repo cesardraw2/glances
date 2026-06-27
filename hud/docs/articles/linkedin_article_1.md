@@ -3,7 +3,7 @@
 > *"Asteroid Blues"*
 
 <div align="center">
-  <img src="../imgs/crew_ship.gif" width="600" style="border-radius: 8px;"/>
+  <img src="./imgs/crew_ship.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Quem acompanha o mundo de monitoramento open-source com certeza conhece o **Glances**. Ele é, de longe, uma das ferramentas de telemetria mais populares construídas em Python. Mas você já abriu o código-fonte da interface web (HUD) que vem embutida nele?

@@ -3,7 +3,7 @@
 > *"Do you have a comrade?"*
 
 <div align="center">
-  <img src="../imgs/ed_typing.gif" width="600" style="border-radius: 8px;"/>
+  <img src="./imgs/ed_typing.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Se você já construiu um painel de monitoramento que pisca e atualiza milhares de dados a cada segundo, sabe que o coração do projeto não é o CSS ou os componentes visuais, mas sim o motor de **Reatividade**. 

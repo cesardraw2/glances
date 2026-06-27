@@ -3,7 +3,7 @@
 > *"Cowboy Bebop at his best"*
 
 <div align="center">
-  <img src="../imgs/spike_smiling.gif" width="600" style="border-radius: 8px;"/>
+  <img src="./imgs/spike_smiling.gif" width="600" style="border-radius: 8px;"/>
 </div>
 
 Muitas equipes de backend acreditam que o trabalho está pronto no momento em que a API cospe um JSON válido com status 200. Mas no ecossistema de observabilidade, um JSON gigantesco cheio de hashes e bytes não filtrados é absolutamente intragável para um operador cansado às 3 da manhã.
