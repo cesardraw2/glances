@@ -591,3 +591,4 @@ Funcionalidade: Componentes de Plugin do HUD
       Então a linha deve ficar destacada (fundo verde e borda)
       E um painel de detalhes (Pinned) deve aparecer sobre a lista com informações adicionais (I/O isolado, Comando completo)
       E um botão "Unpin" deve remover o painel caso clicado
+      E a linha fixada deve ser movida dinamicamente para o topo absoluto da lista (índice 0) garantindo sua visibilidade contínua
