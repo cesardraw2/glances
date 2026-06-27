@@ -5,7 +5,7 @@ Este diretório contém a nova implementação da SPA do **Glances HUD**, que em
 A solução é construída com **Angular v22 (Zoneless + Signals)** no frontend e um pipeline assíncrono baseado em **Server-Sent Events (SSE)** no backend.
 
 > [!IMPORTANT]
-> Todos os comandos documentados neste manual devem ser executados a partir da **raiz do repositório Glances** (`/home/cesardraw/desenv/projects/fullstack/glances`), e não dentro deste subdiretório `hud/`.
+> Todos os comandos documentados neste manual utilizam **Macros do Makefile** na raiz do projeto (`/home/cesardraw/desenv/projects/fullstack/glances`). Conforme as nossas diretrizes de Engenharia de Software, **nunca execute scripts diretamente nas subpastas**; utilize sempre o `make`.
 
 ---
 
@@ -20,122 +20,76 @@ Esta nova arquitetura foi desenvolvida para substituir o modelo clássico de req
 
 ---
 
-## 🛠️ Como Executar Localmente (Ambiente de Desenvolvimento)
+## 🛠️ Como Instalar e Desenvolver
 
-Para desenvolver e testar mudanças de layout isoladamente, utilizamos um **Backend Mock** em Python que simula a API real do Glances.
+Utilizamos o `Makefile` na raiz do repositório para abstrair toda a complexidade de configuração.
 
-### 1. Iniciar o Mock Backend (FastAPI + SSE)
-O mock escuta na porta `8000` e fornece dados simulados de hardware que variam a cada segundo:
+### 1. Instalação Completa
+Instala as dependências tanto do Frontend (Angular/pnpm) quanto do Backend Mock Python (pip):
 ```bash
-cd hud/backend
-python3 app.py
+make hud-install
 ```
 
-### 2. Iniciar o Frontend Angular (Porta 4200)
-Com o mock backend rodando, navegue até a pasta do frontend, instale as dependências e inicie o servidor do Angular com live reload:
+### 2. Iniciar o Ambiente de Desenvolvimento (Live Reload)
+Sobe simultaneamente o Mock Backend FastAPI (porta 8000) e o Angular Dev Server (porta 4200):
 ```bash
-cd hud/frontend
-pnpm install
-pnpm run start
+make hud-dev
 ```
 Acesse no navegador: `http://localhost:4200`
 
 ---
 
-## 🧪 Rodando Testes Unitários & Integração (Vitest Híbrido)
+## 🧪 Rodando Testes Unitários & Integração (Vitest)
 
-A suíte de testes do frontend utiliza o **Vitest**, oferecendo suporte híbrido a testes de lógica ultra-rápidos em Node.js (sem necessidade de navegador) e testes de integração e visualização em navegadores reais usando o **Playwright**.
+A suíte de testes do frontend utiliza o **Vitest**, rodando em milissegundos sem a dependência do Karma/Jasmine clássico.
 
-### 1. Executar Testes de Lógica no Node (Sem Browser - Instantâneo)
-Executa a suíte de testes unitários que não dependem do DOM ou que utilizam mock de injeção do Angular em milissegundos no Node puro:
+### Executar Toda a Suíte de Testes
 ```bash
-export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
-cd hud/frontend
-pnpm test
+make hud-test
 ```
+*Isso executará testes lógicos e de cobertura de código do Angular usando a Engine V8.*
 
-### 2. Executar Testes no Navegador (Vitest Browser + Playwright Chromium)
-Inicializa uma instância leve e otimizada do Chromium gerenciada pelo Playwright para rodar testes integrados que validam a renderização e comportamento real do HUD:
-```bash
-export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
-cd hud/frontend
-pnpm run test:browser
-```
+---
 
-### 3. Gerar Relatório de Cobertura de Código (Coverage)
-Executa a análise de cobertura de código no ambiente Node usando a engine V8:
+## 📦 Compilar e Build Frontend (Produção Estática)
+
+Para gerar a build de produção ultra otimizada e minificada do Angular utilizando o ESBuild:
+
 ```bash
-export PATH="/home/cesardraw/.nvm/versions/node/v22.22.3/bin:$PATH"
-cd hud/frontend
-pnpm run test:coverage
+make hud-build
 ```
 
 ---
 
-## 📦 Compilar e Integrar no Glances (Build de Produção)
+## 🐳 Arquitetura Docker Isolada (Multi-stage)
 
-Para gerar a build otimizada de produção e embutir os arquivos estáticos diretamente no diretório do Glances oficial, utilize o script automatizado `build_hud.sh` na raiz da pasta `hud`:
+O HUD agora possui sua **própria arquitetura de contêiner isolada**, através de um Dockerfile Multi-stage ultra eficiente.
 
+Ele compila o Angular no Estágio 1 usando o `node:22-alpine`, extrai os arquivos binários estáticos, e os serve utilizando o **FastAPI** Python num contêiner limpo (`python:3.12-slim-bookworm`) na porta 8000, unificando o Backend Mock e a SPA num único serviço.
+
+### 1. Construir a Imagem do HUD
+Executa o processo em dois estágios, criando uma imagem segura e leve `glances-hud-mock:latest`:
 ```bash
-# Executar a compilação
-bash hud/build_hud.sh
+make hud-docker-build
 ```
 
-Esse script executa:
-1. A compilação da SPA Angular com o base-href ajustado para `/hud/`.
-2. A limpeza e a cópia de todos os arquivos estáticos gerados para o diretório de assets estáticos do Glances em [glances/outputs/static/hud/](file:///home/cesardraw/desenv/projects/fullstack/glances/glances/outputs/static/hud).
+### 2. Executar o Container do HUD
+Sobe a infraestrutura mockada pronta para visualização:
+```bash
+make hud-docker-run
+```
+Acesse no navegador a porta orquestrada pelo Uvicorn do contêiner: `http://localhost:8000`
 
 ---
 
 ## 🖥️ Executando de Forma Integrada (Glances Real)
 
-Uma vez que a build foi compilada com o script acima, o novo HUD passa a ser servido de forma nativa pelo Web Server integrado do Glances.
+Se você desejar apontar o HUD para o **Backend Original do Glances** em vez do Mock, basta lembrar que o Web Server do Glances (v4+) também expõe uma API na porta padrão `61208` com SSE.
 
-### 1. Execução Padrão (Sem Autenticação)
-Inicie o Glances em modo Web server:
-```bash
-python3 run.py -w
-```
-Acesse o HUD integrado em seu navegador:
-👉 `http://localhost:61208/hud/`
+Você pode conectar o `metrics.service.ts` à porta `61208` apontando a URL de desenvolvimento.
 
-### 2. Execução com Autenticação Habilitada
-Para testar e rodar o HUD em ambientes seguros, inicie o Glances exigindo senha:
-```bash
-python3 run.py -w --password
-```
-*(Você será solicitado a criar uma senha para o usuário `admin` no terminal).*
+### 1. Modos de Autenticação Real:
+* **Sem Autenticação:** `python3 run.py -w`
+* **Com Autenticação Segura:** `python3 run.py -w --password`
 
-Ao abrir o endereço `http://localhost:61208/hud/`, a SPA detectará o bloqueio HTTP 401 e apresentará uma **Tela de Login retro-CRT**. 
-* Insira o usuário (`admin`) e a senha criada.
-* O frontend efetuará o handshake via `/api/4/token`, armazenará com segurança o token JWT no `localStorage` e injetará automaticamente o token na query string da conexão persistente EventSource do SSE (`?token=JWT_TOKEN`).
-
-### 3. Ajustando Dinamicamente a Frequência de Atualização (Refresh Rate)
-É possível passar parâmetros de query string na URL para regular o ritmo com que o SSE e a UI atualizam:
-* **Atualização em alta velocidade (1s):** `http://localhost:61208/hud/?refresh=1`
-* **Tempo real extremo (0.5s):** `http://localhost:61208/hud/?refresh=0.5`
-* **Modo econômico de CPU (5s):** `http://localhost:61208/hud/?refresh=5`
-
----
-
-## 🐳 Executando com Docker
-
-O Glances oficial pode ser empacotado em um contêiner Docker contendo o novo HUD compilado. O HUD será servido normalmente na porta padrão `61208`.
-
-### 1. Construindo a Imagem Localmente
-Certifique-se de executar o `build_hud.sh` antes, para garantir que os estáticos mais recentes estejam sob `glances/outputs/static/hud`. Depois, execute:
-```bash
-docker build -t glances-hud -f docker-files/alpine.Dockerfile .
-```
-
-### 2. Executando o Container
-Suba o container mapeando o soquete do docker do host para monitorar contêineres:
-```bash
-docker run -d \
-  --name glances-hud-container \
-  -p 61208:61208 \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  --pid host \
-  glances-hud
-```
-Acesse `http://localhost:61208/hud/` no seu host.
+Ao acessar com senha, o HUD ativa automaticamente a sua **Tela de Login retro-CRT** interativa. O Token JWT será armazenado de forma segura e a conexão SSE injetará esse JWT para streaming bidirecional blindado.
