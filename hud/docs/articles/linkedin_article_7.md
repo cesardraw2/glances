@@ -65,4 +65,4 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 - [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)
 
 
-> *"See You Space Cowboy..."* 🚬🚀
+> *"See You Space Cowboy..."* 🚀

@@ -57,4 +57,4 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 - [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)
 
 
-> *"See You Space Cowboy..."* 🚬🚀
+> *"See You Space Cowboy..."* 🚀

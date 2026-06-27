@@ -72,4 +72,4 @@ Quer conferir como o código ficou na prática? Acesse os arquivos originais dir
 - [app.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.component.ts)
 
 
-> *"See You Space Cowboy..."* 🚬🚀
+> *"See You Space Cowboy..."* 🚀
