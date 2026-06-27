@@ -13,7 +13,6 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   template: `
     @if (containers() !== null) {
       @if (formattedContainers(); as conts) {
-        @if (conts.length > 0) {
           <app-plugin-card>
           <!-- Containers header -->
           <div class="text-white font-bold mb-2">
@@ -93,7 +92,6 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
             </cdk-virtual-scroll-viewport>
           </div>
           </app-plugin-card>
-        }
       }
     } @else {
       <app-plugin-card>
