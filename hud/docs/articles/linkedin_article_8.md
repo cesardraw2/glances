@@ -51,6 +51,15 @@ Como a sua equipe lida com formatação pesada no frontend? Pipes nativos? Web W
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 7: A Revolução nos Testes: Vitest vs Jest/Karma](./linkedin_article_7.md)
+- ⏩ **Próximo:** [Parte 9: Angular CDK Virtual Scroll e Web Workers](./linkedin_article_9.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

@@ -55,6 +55,15 @@ Você prefere o modelo de Contextos Globais (como Vuex/Pinia e Redux) ou a Inje�
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 5: Tempo Real de Verdade: Polling REST vs Server-Sent Events](./linkedin_article_5.md)
+- ⏩ **Próximo:** [Parte 7: A Revolução nos Testes: Vitest vs Jest/Karma](./linkedin_article_7.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

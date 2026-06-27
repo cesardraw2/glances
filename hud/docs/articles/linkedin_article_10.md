@@ -49,6 +49,14 @@ Se você acompanhou essa série desde o artigo 1, muito obrigado! Vocês acham q
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 9: Angular CDK Virtual Scroll e Web Workers](./linkedin_article_9.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

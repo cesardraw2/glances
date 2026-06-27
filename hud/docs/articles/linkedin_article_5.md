@@ -73,6 +73,15 @@ Na sua empresa, vocês ainda usam "Short Polling" (setInterval/setTimeout) para 
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 4: Template Control Flow: Vue v-for vs Angular @for](./linkedin_article_4.md)
+- ⏩ **Próximo:** [Parte 6: Injeção de Dependências e Arquitetura Modular](./linkedin_article_6.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

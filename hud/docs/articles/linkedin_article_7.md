@@ -57,6 +57,15 @@ Na sua stack atual de Angular, você ainda está preso ao Karma? Ou já migrou p
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 6: Injeção de Dependências e Arquitetura Modular](./linkedin_article_6.md)
+- ⏩ **Próximo:** [Parte 8: O 'Pulo do Gato' em UX: Parseando Dados Brutos do Docker](./linkedin_article_8.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

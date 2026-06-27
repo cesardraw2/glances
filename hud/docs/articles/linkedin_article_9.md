@@ -44,6 +44,15 @@ Alguém aqui já teve que resgatar a performance de listas gigantescas? Como voc
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 8: O 'Pulo do Gato' em UX: Parseando Dados Brutos do Docker](./linkedin_article_8.md)
+- ⏩ **Próximo:** [Parte 10: O Segredo do Lighthouse 100/100 (CLS e Acessibilidade)](./linkedin_article_10.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

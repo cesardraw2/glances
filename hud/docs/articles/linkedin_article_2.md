@@ -65,6 +65,15 @@ Como está o `package.json` do seu projeto atual? Ele parece uma lista telefôni
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 1: O Setup Inicial: Webpack vs Esbuild](./linkedin_article_1.md)
+- ⏩ **Próximo:** [Parte 3: Reatividade: reactive() do Vue vs Angular Signals](./linkedin_article_3.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

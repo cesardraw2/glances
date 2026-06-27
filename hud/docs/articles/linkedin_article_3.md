@@ -66,6 +66,15 @@ Você já abraçou o conceito de Signals no Angular, Solid ou Preact? Ou ainda p
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 2: O 'Zero-Dependency Mindset': Eliminando bibliotecas terceiras](./linkedin_article_2.md)
+- ⏩ **Próximo:** [Parte 4: Template Control Flow: Vue v-for vs Angular @for](./linkedin_article_4.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

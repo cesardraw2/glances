@@ -61,6 +61,14 @@ E você? Já experimentou rodar suas aplicações Angular sem o `zone.js`? Deixa
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏩ **Próximo:** [Parte 2: O 'Zero-Dependency Mindset': Eliminando bibliotecas terceiras](./linkedin_article_2.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:

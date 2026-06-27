@@ -60,6 +60,15 @@ Qual sintaxe de template você prefere? A abordagem clássica injetada no atribu
 
 ---
 
+
+
+---
+
+## 📖 Navegação da Série
+
+- ⏪ **Anterior:** [Parte 3: Reatividade: reactive() do Vue vs Angular Signals](./linkedin_article_3.md)
+- ⏩ **Próximo:** [Parte 5: Tempo Real de Verdade: Polling REST vs Server-Sent Events](./linkedin_article_5.md)
+
 ## 🔗 Links do Repositório (Código Real)
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
