@@ -74,8 +74,8 @@ Na sua stack atual de Angular, você ainda está preso ao Karma? Ou já migrou p
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [metrics.service.spec.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.spec.ts)
-- [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)
+- [metrics.service.spec.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/services/metrics.service.spec.ts)
+- [metrics.service.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/services/metrics.service.ts)
 
 
 > *"See You Space Cowboy..."* 🚀

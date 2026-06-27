@@ -60,8 +60,8 @@ Se você acompanhou essa série desde o artigo 1, muito obrigado! Vocês acham q
 
 Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
 
-- [styles.css](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/styles.css)
-- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)
+- [styles.css](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/styles.css)
+- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/docs/linkedin-series/hud/frontend/src/app/plugins/docker-plugin.component.ts)
 
 
 > *"See You Space Cowboy..."* 🚀
