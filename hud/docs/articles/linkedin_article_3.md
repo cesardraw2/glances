@@ -60,3 +60,12 @@ Na **Parte 4**, mergulharemos em um dos recursos mais subestimados do Angular: o
 Você já abraçou o conceito de Signals no Angular, Solid ou Preact? Ou ainda prefere a velha magia dos Proxies? Deixe nos comentários! 👇
 
 *(#Angular22 #VueJS #Signals #WebPerformance #Reatividade #Frontend #SoftwareEngineering)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)

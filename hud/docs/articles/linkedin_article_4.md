@@ -54,3 +54,12 @@ No **Artigo 5** dessa série, vamos dar um salto em direção ao protocolo de re
 Qual sintaxe de template você prefere? A abordagem clássica injetada no atributo (`v-for`/`*ngFor`) ou a nova arquitetura limpa de blocos lógicos (`@for`)? Conta pra gente nos comentários! 👇
 
 *(#Angular22 #VueJS #Frontend #WebPerformance #CleanCode #Glances #SoftwareEngineering)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)

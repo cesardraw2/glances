@@ -59,3 +59,12 @@ Na **Parte 3** da série, nós vamos abordar a revolução do fluxo de dados: co
 Como está o `package.json` do seu projeto atual? Ele parece uma lista telefônica de dependências ou está blindado no *Zero-Dependency*? Conta pra mim nos comentários! 👇
 
 *(#Angular22 #VueJS #WebPerformance #TailwindCSS #Frontend #SoftwareEngineering #CleanCode)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [app.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.component.ts)

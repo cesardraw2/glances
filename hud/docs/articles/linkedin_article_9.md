@@ -38,3 +38,13 @@ Na semana que vem (Parte 10), encerraremos essa série abordando o segredo por t
 Alguém aqui já teve que resgatar a performance de listas gigantescas? Como vocês lidaram: Paginação Clássica ou Scroll Virtual? Deixa a sua experiência nos comentários! 👇
 
 *(#Angular22 #WebPerformance #Frontend #JavaScript #Glances #VirtualScroll #WebWorkers #UX)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [metrics.worker.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.worker.ts)
+- [processes-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/processes-plugin.component.ts)

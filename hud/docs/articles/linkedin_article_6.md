@@ -49,3 +49,12 @@ No **Artigo 7**, vamos entrar na briga dos testes! O ecossistema modernizou viol
 Você prefere o modelo de Contextos Globais (como Vuex/Pinia e Redux) ou a Injeção de Dependências baseada em classes do Angular para escalar equipes? 👇
 
 *(#Angular22 #VueJS #Architecture #DependencyInjection #Ollama #CleanCode #SoftwareEngineering #Frontend)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [ollama-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/ollama-plugin.component.ts)

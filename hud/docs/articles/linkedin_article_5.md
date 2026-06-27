@@ -67,3 +67,12 @@ Na **Parte 6** da série, vamos dissecar o elefante na sala: Injeção de Depend
 Na sua empresa, vocês ainda usam "Short Polling" (setInterval/setTimeout) para painéis, ou já migraram para SSE / WebSockets? Deixe seu depoimento nos comentários! 👇
 
 *(#Angular22 #WebPerformance #ServerSentEvents #SSE #VueJS #Frontend #Glances #Networking)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)

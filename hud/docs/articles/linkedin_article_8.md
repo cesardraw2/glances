@@ -45,3 +45,13 @@ Na próxima semana entraremos no clímax final da nossa série de 10 artigos, on
 Como a sua equipe lida com formatação pesada no frontend? Pipes nativos? Web Workers? Ou deixam o fardo da formatação nas costas do backend? Conta pra gente nos comentários! 👇
 
 *(#Angular22 #WebDesign #UX #Docker #TailwindCSS #Frontend #WebPerformance #SoftwareEngineering)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)
+- [format-bytes.pipe.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/core/pipes/format-bytes.pipe.ts)

@@ -43,3 +43,13 @@ Reconstruir a UI do Glances foi uma aula prática de como o ecossistema do **Ang
 Se você acompanhou essa série desde o artigo 1, muito obrigado! Vocês acham que valeu a pena modernizar esse clássico Open Source? Como vocês estão lidando com CLS nas suas dashboards hoje? Deixe aí nos comentários! 👇
 
 *(#Angular22 #Lighthouse #WebPerformance #CSS #Tailwind #Frontend #Glances #UX)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [styles.css](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/styles.css)
+- [docker-plugin.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/plugins/docker-plugin.component.ts)

@@ -51,3 +51,13 @@ No **Artigo 8**, vamos abordar o nosso **Tratamento Ouro de Imagens OCI**, revel
 Na sua stack atual de Angular, você ainda está preso ao Karma? Ou já migrou para o Jest / Vitest? Quais dores você sentiu? 👇
 
 *(#Angular22 #Vitest #Testing #TDD #Frontend #WebPerformance #SoftwareEngineering #Glances)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [metrics.service.spec.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.spec.ts)
+- [metrics.service.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/services/metrics.service.ts)

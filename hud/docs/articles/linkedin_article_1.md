@@ -55,3 +55,13 @@ Na próxima semana, vou mostrar na prática como eliminamos o inferno de bibliot
 E você? Já experimentou rodar suas aplicações Angular sem o `zone.js`? Deixa aqui nos comentários como foi o ganho de performance na sua realidade! 👇
 
 *(#Angular22 #WebPerformance #Frontend #JavaScript #Glances #Zoneless)*
+
+
+---
+
+## 🔗 Links do Repositório (Código Real)
+
+Quer conferir como o código ficou na prática? Acesse os arquivos originais direto no nosso GitHub:
+
+- [app.config.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.config.ts)
+- [app.component.ts](https://github.com/cesardraw2/glances/blob/master/hud/frontend/src/app/app.component.ts)
