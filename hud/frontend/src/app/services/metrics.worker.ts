@@ -73,6 +73,28 @@ function isProcessRunning(proc: any): boolean {
   return s === 'running' || s === 'R';
 }
 
+function formatRate(rate: number | string | null | undefined): string {
+  if (rate === undefined || rate === null || rate === 0 || rate === '0') return '0';
+  if (typeof rate === 'string') {
+    return rate.replace(' /s', '').replace(' ', '');
+  }
+  if (isNaN(rate)) return '0';
+  return formatBytes(rate);
+}
+
+function getContainerStatusClass(status: string): string {
+  const s = (status || '').toLowerCase();
+  if (s === 'healthy' || s === 'running' || s === 'up') return 'text-green-500 font-bold';
+  if (s === 'unhealthy' || s === 'dead' || s === 'exited') return 'text-red-500 font-bold';
+  return 'text-yellow-500 font-bold';
+}
+
+function getCommandStr(cmd: any): string {
+  if (!cmd) return '-';
+  if (Array.isArray(cmd)) return cmd.join(' ');
+  return cmd;
+}
+
 addEventListener('message', ({ data }) => {
   if (data.type === 'SET_KEYS') {
     if (data.processSortKey) processSortKey = data.processSortKey;
@@ -85,16 +107,32 @@ addEventListener('message', ({ data }) => {
       const parsedData = JSON.parse(data.payload);
 
       // Pre-sort containers
-      const containers = parsedData.containers;
+      let containers = parsedData.containers;
       if (containers && Array.isArray(containers)) {
         if (containerSortKey === 'cpu_percent') {
-          containers.sort((a, b) => (b.cpu_percent || 0) - (a.cpu_percent || 0));
+          containers.sort((a: any, b: any) => (b.cpu_percent || 0) - (a.cpu_percent || 0));
         } else if (containerSortKey === 'memory_usage') {
           const getMem = (item: any) => item.memory_usage || (item.memory && item.memory.usage) || 0;
-          containers.sort((a, b) => getMem(b) - getMem(a));
+          containers.sort((a: any, b: any) => getMem(b) - getMem(a));
         } else if (containerSortKey === 'name') {
-          containers.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+          containers.sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''));
         }
+
+        // FORMAT CONTAINERS HERE IN BACKGROUND
+        containers = containers.map((c: any) => ({
+          ...c,
+          _statusClass: getContainerStatusClass(c.status),
+          _cpuStr: (c.cpu_percent || 0).toFixed(1) + '%',
+          _memUsageStr: formatBytes(c.memory_usage || c.memory?.usage || 0),
+          _memLimitStr: formatBytes(c.memory_limit || c.memory?.limit || 0),
+          _iorStr: formatRate(c.io?.ior),
+          _iowStr: formatRate(c.io?.iow),
+          _rxStr: formatRate(c.network?.rx),
+          _txStr: formatRate(c.network?.tx),
+          _cmdStr: getCommandStr(c.command)
+        }));
+        
+        parsedData.containers = containers;
       }
 
       // Pre-sort processes
