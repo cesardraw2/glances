@@ -1,26 +1,27 @@
 import { Component, computed, inject, ChangeDetectionStrategy, signal, HostListener } from '@angular/core';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { MetricsService } from './services/metrics.service';
-import { SystemInfoComponent } from './plugins/system-info.component';
-import { QuickLookComponent } from './plugins/quicklook-plugin.component';
-import { LoadPluginComponent } from './plugins/load-plugin.component';
-import { CpuPluginComponent } from './plugins/cpu-plugin.component';
-import { MemPluginComponent } from './plugins/mem-plugin.component';
-import { NetworkPluginComponent } from './plugins/network-plugin.component';
-import { DiskIoPluginComponent } from './plugins/diskio-plugin.component';
-import { FsPluginComponent } from './plugins/fs-plugin.component';
-import { ProcessesPluginComponent } from './plugins/processes-plugin.component';
-import { DockerPluginComponent } from './plugins/docker-plugin.component';
-import { GpuPluginComponent } from './plugins/gpu-plugin.component';
-import { SensorsPluginComponent } from './plugins/sensors-plugin.component';
-import { OllamaPluginComponent } from './plugins/ollama-plugin.component';
+import { SystemInfoComponent } from './plugins/system-info/system-info.component';
+import { QuickLookComponent } from './plugins/quicklook/quicklook-plugin.component';
+import { LoadPluginComponent } from './plugins/load/load-plugin.component';
+import { CpuPluginComponent } from './plugins/cpu/cpu-plugin.component';
+import { MemPluginComponent } from './plugins/mem/mem-plugin.component';
+import { NetworkPluginComponent } from './plugins/network/network-plugin.component';
+import { DiskIoPluginComponent } from './plugins/diskio/diskio-plugin.component';
+import { FsPluginComponent } from './plugins/fs/fs-plugin.component';
+import { ProcessesPluginComponent } from './plugins/processes/processes-plugin.component';
+import { DockerPluginComponent } from './plugins/docker/docker-plugin.component';
+import { GpuPluginComponent } from './plugins/gpu/gpu-plugin.component';
+import { SensorsPluginComponent } from './plugins/sensors/sensors-plugin.component';
+import { OllamaPluginComponent } from './plugins/ollama/ollama-plugin.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, NgComponentOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   private metricsService = inject(MetricsService);

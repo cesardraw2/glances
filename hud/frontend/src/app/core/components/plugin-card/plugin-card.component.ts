@@ -6,11 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="font-mono text-[12px] text-[#ccc] leading-relaxed select-none w-full mb-4 pb-4 border-b border-[#111]">
-      <ng-content></ng-content>
-    </div>
-  `
+  templateUrl: './plugin-card.component.html',
+  styleUrl: './plugin-card.component.css'
 })
 export class PluginCardComponent {
 }

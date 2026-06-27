@@ -1,15 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MetricsService } from '../services/metrics.service';
-import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
-import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
-
-@Component({
-  selector: 'app-ollama-plugin',
-  standalone: true,
-  imports: [CommonModule, PluginCardComponent, FormatBytesPipe],
-  template: `
-    <app-plugin-card>
+<app-plugin-card>
       <div class="text-white font-bold mb-2">
         OLLAMA {{ ollamaList().length }} models loaded in VRAM
       </div>
@@ -39,13 +28,3 @@ import { FormatBytesPipe } from '../core/pipes/format-bytes.pipe';
         </div>
       }
     </app-plugin-card>
-  `
-})
-export class OllamaPluginComponent {
-  private metricsService = inject(MetricsService);
-  
-  readonly ollamaList = computed(() => {
-    const list = this.metricsService.ollama();
-    return Array.isArray(list) ? list : [];
-  });
-}

@@ -1,16 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MetricsService } from '../services/metrics.service';
-import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
-import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
-
-@Component({
-  selector: 'app-cpu-plugin',
-  standalone: true,
-  imports: [CommonModule, AlertClassPipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @if (cpu()) {
+@if (cpu()) {
       <div class="font-mono text-[12px] text-white leading-relaxed select-none w-full ">
         <div class="grid grid-cols-12 gap-x-2">
           <!-- Coluna 1: CPU, user, system, idle -->
@@ -84,10 +72,3 @@ import { AlertClassPipe } from '../core/pipes/alert-class.pipe';
         }
       </div>
     }
-  `
-})
-export class CpuPluginComponent {
-  private metricsService = inject(MetricsService);
-  readonly cpu = this.metricsService.cpu;
-  readonly showPerCpu = this.metricsService.showPerCpu;
-}

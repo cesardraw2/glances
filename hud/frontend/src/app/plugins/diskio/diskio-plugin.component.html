@@ -1,16 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MetricsService } from '../services/metrics.service';
-import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.component';
-import { FormatRatePipe } from '../core/pipes/format-rate.pipe';
-
-@Component({
-  selector: 'app-diskio-plugin',
-  standalone: true,
-  imports: [CommonModule, PluginCardComponent, FormatRatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @if (diskio()) {
+@if (diskio()) {
       <app-plugin-card>
         <div class="grid grid-cols-12 gap-x-2 border-b border-[#111] pb-0.5 mb-0.5">
           <span class="text-white font-bold col-span-6">DISK I/O</span>
@@ -28,9 +16,3 @@ import { FormatRatePipe } from '../core/pipes/format-rate.pipe';
         </div>
       </app-plugin-card>
     }
-  `
-})
-export class DiskIoPluginComponent {
-  private metricsService = inject(MetricsService);
-  readonly diskio = this.metricsService.diskio;
-}
