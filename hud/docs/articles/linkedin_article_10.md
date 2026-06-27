@@ -50,11 +50,6 @@ Se você acompanhou essa série desde o artigo 1, muito obrigado! Vocês acham q
 
 *(#Angular22 #Lighthouse #WebPerformance #CSS #Tailwind #Frontend #Glances #UX)*
 
-
----
-
-
-
 ---
 
 ## 📖 Navegação da Série
