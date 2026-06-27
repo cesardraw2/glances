@@ -55,11 +55,11 @@ export class AppComponent {
   });
 
   readonly cpuColClass = computed(() => {
-    return (this.showGpu() && this.hasGpu()) ? 'col-span-12 md:col-span-3' : 'col-span-12 md:col-span-4';
+    return this.showGpu() ? 'col-span-12 md:col-span-3' : 'col-span-12 md:col-span-4';
   });
 
   readonly memColClass = computed(() => {
-    return (this.showGpu() && this.hasGpu()) ? 'col-span-12 md:col-span-3' : 'col-span-12 md:col-span-4';
+    return this.showGpu() ? 'col-span-12 md:col-span-3' : 'col-span-12 md:col-span-4';
   });
 
   // Alerta dinâmico ativo na barra de status
