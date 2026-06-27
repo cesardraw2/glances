@@ -9,7 +9,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
 @Component({
   selector: 'app-processes-plugin',
   standalone: true,
-  imports: [CommonModule, PluginCardComponent, FormatBytesPipe, ScrollingModule],
+  imports: [CommonModule, PluginCardComponent, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (formattedProcesses(); as procs) {

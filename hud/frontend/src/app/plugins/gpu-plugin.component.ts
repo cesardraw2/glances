@@ -6,7 +6,7 @@ import { PluginCardComponent } from '../core/components/plugin-card/plugin-card.
 @Component({
   selector: 'app-gpu-plugin',
   standalone: true,
-  imports: [CommonModule, PluginCardComponent],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (gpu() && gpu().length > 0) {

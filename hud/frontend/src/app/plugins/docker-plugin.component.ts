@@ -101,6 +101,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
         </div>
       </app-plugin-card>
     }
+  }
   `
 })
 export class DockerPluginComponent {
