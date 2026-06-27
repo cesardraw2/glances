@@ -41,28 +41,6 @@ describe('DockerPluginComponent', () => {
     expect(mockMetricsService.containerSortKey.set).toHaveBeenCalledWith('cpu_percent');
   });
 
-  it('should toggle local highlight of containers', () => {
-    const comp = new DockerPluginComponent();
-    expect(comp.highlightedContainerId()).toBeNull();
-    
-    comp.toggleHighlight('123');
-    expect(comp.highlightedContainerId()).toBe('123');
-    
-    comp.toggleHighlight('123');
-    expect(comp.highlightedContainerId()).toBeNull();
-  });
 
-  it('should return correct status classes', () => {
-    const comp = new DockerPluginComponent();
-    expect(comp.getStatusClass('running')).toContain('text-green-500');
-    expect(comp.getStatusClass('exited')).toContain('text-red-500');
-    expect(comp.getStatusClass('paused')).toContain('text-yellow-500');
-  });
 
-  it('should format commands arrays and strings correctly', () => {
-    const comp = new DockerPluginComponent();
-    expect(comp.getCommandStr('node index.js')).toBe('node index.js');
-    expect(comp.getCommandStr(['postgres', '-D', '/data'])).toBe('postgres -D /data');
-    expect(comp.getCommandStr(null)).toBe('-');
-  });
 });

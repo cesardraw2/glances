@@ -72,6 +72,7 @@ describe('AppComponent', () => {
   // ─── Computed: cpuColClass / memColClass ─────────────────────
 
   it('should return 4-col class when GPU is not visible', () => {
+    app.showGpu.set(false);
     expect(app.cpuColClass()).toBe('col-span-12 md:col-span-4');
     expect(app.memColClass()).toBe('col-span-12 md:col-span-4');
   });
