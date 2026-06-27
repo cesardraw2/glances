@@ -10,7 +10,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
   standalone: true,
   imports: [CommonModule, PluginCardComponent, ScrollingModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: \`
+  template: `
     @if (formattedContainers(); as conts) {
       @if (conts.length > 0) {
         <app-plugin-card>
@@ -94,7 +94,7 @@ import { MeasureRender } from '../core/decorators/aop.decorators';
         </app-plugin-card>
       }
     }
-  \`
+  `
 })
 export class DockerPluginComponent {
   private metricsService = inject(MetricsService);
